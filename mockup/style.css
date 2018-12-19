@@ -1,0 +1,186 @@
+body{
+                margin:0;
+                padding:0;
+                font-family: sans-serif;
+                text-align: center;
+                /*width: 800px;
+                height: 480px;*/
+                background-color: whitesmoke;
+                color: #484848;
+               
+            }
+            
+            a {
+                text-decoration: none;
+                color: #484848
+            }
+            
+            a:link {
+                text-decoration: none;
+            }
+
+            a:visited {
+                text-decoration: none;
+            }
+
+            a:hover {
+                text-decoration: none;
+            }
+
+            a:active {
+                text-decoration: none;
+            }
+            
+            main{
+                display: flex;
+                flex-wrap: wrap;
+                overflow-x: auto;
+                background: none;
+            }
+
+            /*.line::after{
+                position: absolute;
+                right: -1px;
+                top: 0px;
+                bottom: 0px;
+                width: 1px;
+                content: '';
+                box-shadow: 0px 0px 10px gray;
+            }*/
+            
+            .product{
+                position: relative;
+                width: 250px;
+                height: 160px;
+                background-color: white;
+                border-radius: 10px;
+                box-shadow: 0px 0px 15px lightgray; 
+                margin: 15px;
+                float: left;
+                display: inline-block;
+            }
+            
+            .product > img {
+                margin-top: 20px;
+                left: 40px;
+                height: 100px;
+            }
+            
+            .product > h1{
+                width: 100%;
+                margin:0;
+            }
+            
+            .line{
+                flex: 0 0 auto;
+            }
+            
+            #back{
+                border-bottom: 1px solid lightgray;
+            }
+            
+            #back > img{
+                width: 80px;
+                margin: 10px;
+            }
+            
+            #balance > h2{
+                font-size: 20px;
+            }
+            
+            #balance > span{
+                font-size: 25px;
+            }
+#top {
+    position: relative;
+    height: 40px;
+}
+
+#bottom {
+    position: relative;
+    height: 40px;
+}
+
+#button_logout {
+    position: absolute;
+    left:0px;
+    top: 0px;
+    bottom: 0px;
+    width: 210px;
+    background-image: url(img/button_left.svg);
+    filter: drop-shadow(0px 0px 5px lightgray);
+    color: white;
+    text-align: center;
+    font-size: 20px;
+    padding-top: 10px;
+    padding-right: 40px;
+}
+
+#button_buy {
+    position: absolute;
+    right: 0px;
+    top:0px;
+    bottom: 0px;
+    width: 210px;
+    background-image: url(img/button_right.svg);
+    filter: drop-shadow(0px 0px 15px lightgray);
+    color: white;
+    text-align: center;
+    font-size: 20px;
+    padding-top: 10px;
+    padding-left: 40px;
+}
+
+#notch {
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 200px;
+    right: 200px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url(img/notch.svg);
+    filter: drop-shadow(0px 0px 5px lightgray);
+    color: #484848;
+    text-align: center;
+    font-size: 20px;
+    padding-top: 10px;
+}
+
+#balance {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    bottom: 0px;
+    width: 200px;
+    text-align: center;
+    font-size: 20px;
+    padding-top: 10px;
+}
+
+#button_deposit {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    width: 200px;
+    text-align: center;
+    font-size: 20px;
+    padding-top: 10px;
+}
+
+.counter {
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    width: 30px;
+    height: 30px;
+    color: white;
+    background-color: #009688;
+    border-radius: 50%;
+    padding: 10px;
+    margin: 0;
+    font-size: 30px;
+    line-height: 30px;
+    filter: drop-shadow(0px 0px 5px lightgray)
+}
