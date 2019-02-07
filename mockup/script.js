@@ -39,6 +39,10 @@ onAddMoneyButton = function() {
     pages.showPage(pages.addMoneyPage);
 }
 
+onCancelAddMoney = function() {
+    pages.showPage(pages.mainPage);
+}
+
 document.onkeypress = function(e) {
     if(e.keyCode != 13) {
         keyBuffer += String.fromCharCode(e.keyCode);

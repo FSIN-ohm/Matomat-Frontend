@@ -45,8 +45,20 @@ main{
     border-radius: 10px;
     box-shadow: 0px 0px 15px lightgray; 
     margin: 15px;
-    float: left;
     display: inline-block;
+}
+
+.money_button{
+    position: relative;
+    width: 200px;
+    height: 65px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 0px 15px lightgray; 
+    margin: 15px;
+    display: inline-block;
+    font-size: 40px;
+    padding-top: 20px;
 }
 
 .product > img {
@@ -62,6 +74,14 @@ main{
 
 .line{
     flex: 0 0 auto;
+}
+
+.money_button_line{
+    display: flex;
+    flex: 0 0 auto;
+    flex-direction: column;
+    margin-left: -50px;
+    float:left;
 }
 
 .page {
@@ -183,4 +203,59 @@ main{
 
 ::-webkit-scrollbar {
     display:none;
+}
+
+#money_page_center {
+    width: 300px;
+    float: left;
+    margin-left:20px;
+}
+
+#add_money_page {
+    display:flex;
+}
+
+#numpad {
+    display:inline;
+    float:right;
+    margin-right: 15px;
+    margin-top: 20px;
+}
+
+#numpad > tbody {
+    box-shadow: 0px 0px 15px lightgray; 
+}
+
+.npb {
+    width: 80px;
+    height: 65px;
+    background-color: white;
+    font-size:35px;
+}
+
+#dagobert {
+    margin-top:60px;
+}
+
+#ok_button {
+    color: white;
+    background-color:#009688;
+}
+
+#cancel_button {
+    color: white;
+    background-color:#ff5722;
+}
+
+#money_display {
+    width: 250px;
+    height: 50px;
+    float: right;
+    background-color: white;
+    font-size: 30px;
+    filter: drop-shadow(0px 0px 5px lightgray);
+    border-radius: 10px;
+    margin-right: 16px;
+    margin-top: 100px;
+    padding-top: 12px;
 }

@@ -83,9 +83,42 @@
                 <div id="button_buy" onclick="onBuyButton()">Buy</div>
             </div>
         </div>
-        <div id="add_money_page" class="page">
-            <h1>Geld hier hinzufügen.</h1>
-        </div>
+        <span id="add_money_page" class="page">
+                <div class="money_button_line" id="buttons_left">
+                    <div class="money_button">+5€</div>
+                    <div class="money_button">+10€</div>
+                    <div class="money_button">+20€</div>
+                    <div class="money_button">+50€</div>
+                </div>
+                <div id="money_page_center">
+                    <h1>Geld aufladen</h1>
+                    <i>Wirf das Geld in den Dagobert. Gib anschliesend ein wieviel du eingeschmissen hast.</i>
+                    <img id="dagobert" src="img/dagobert.png">
+                </div>
+                <div id="money_display">100,00€</div>
+                <table id="numpad">
+                    <tr>
+                        <td class="npb">1</td>
+                        <td class="npb">2</td>
+                        <td class="npb">3</td>
+                    </tr>
+                    <tr>
+                        <td class="npb">4</td>
+                        <td class="npb">5</td>
+                        <td class="npb">6</td>
+                    </tr>
+                    <tr>
+                        <td class="npb">7</td>
+                        <td class="npb">8</td>
+                        <td class="npb">9</td>
+                    </tr>
+                    <tr>
+                        <td class="npb" id="ok_button">OK</td>
+                        <td class="npb">0</td>
+                        <td class="npb" id="cancel_button" onclick="onCancelAddMoney()">X</td>
+                    </tr>
+                </table>
+            </span>
         <div id="thank_you_page" class="page">
             <h1>Danke schön.</h1>
             <img src="img/thankyou_cat.gif"/>
