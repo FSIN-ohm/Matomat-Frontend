@@ -10,78 +10,85 @@
         <script type="text/javascript" src="lib/dragscroll.js"></script>
     </head>
     <body>
-        <div id="main_page">
-                <div id="top">
-                        <div id="balance">
-                            12,50€
-                        </div>
-                        <div id="notch">
-                            100,00€
-                        </div>
-                        <div id="button_deposit" onclick="onLoadMoneyClick()">
-                            Aufladen +
-                        </div>
-                    </div>
-                    <main class="dragscroll">
-                        <!---- begin of the first line---->
-                        <div class="line">
-                            <div class="product">
-                                <img src="img/flasche.png">
-                                <h1>Mate Cola</h1>
-                            </div>
-                            <div class="product">
-                                    <img src="img/flasche.png">
-                                    <h1>Mate Cola</h1>
-                            </div>
-                            <div class="product">
-                                    <img src="img/flasche.png">
-                                    <h1>Mate Cola</h1>
-                            </div>
-                            <div class="product">
-                                    <img src="img/flasche.png">
-                                    <h1>Mate Cola</h1>
-                                </div>
-                            <div class="product">
-                                    <img src="img/flasche.png">
-                                    <h1>Mate Cola</h1>
-                            </div>
-                            <div class="product">
-                                    <img src="img/flasche.png">
-                                    <h1>Mate Cola</h1>
-                            </div>
-                        </div>
-                        <!---- Begin of the second line ---->
-                        <div class="line">
-                            <div class="product">
-                                <img src="img/flasche.png">
-                                <h1>Mate Cola</h1>
-                            </div>
-                            <div class="product">
-                                    <img src="img/flasche.png">
-                                    <h1>Mate Cola</h1>
-                            </div>
-                            <div class="product">
-                                    <img src="img/flasche.png">
-                                    <h1>Mate Cola</h1>
-                            </div>
-                            <div class="product">
-                                    <img src="img/flasche.png">
-                                    <h1>Mate Cola</h1>
-                                </div>
-                            <div class="product">
-                                    <img src="img/flasche.png">
-                                    <h1>Mate Cola</h1>
-                            </div>
-                        </div>
-                    </main>
-                    <div id="bottom">
-                        <div id="button_logout" class="btn">Logout</div>
-                        <div id="button_buy" class="btn">Buy</div>
-                    </div>
-                
+        <div id="start_page" class="page">
+            <h1>FSIN Mathomat</h1>
+            <i>Lege deine OHM Karte auf den Scanner.</i>
         </div>
-        <div id="add_money_page" style="display: none">
-            <h1 onclick="onBackButton()">Hallo welt</h1>
+        <div id="main_page" class="page">
+            <div id="top">
+                <div id="balance">
+                    12,50€
+                </div>
+                <div id="notch">
+                    100,00€
+                </div>
+                <div id="button_deposit" onclick="onAddMoneyButton()">
+                    Aufladen +
+                </div>
+            </div>
+            <main class="dragscroll">
+                <!---- begin of the first line---->
+                <div class="line">
+                    <div class="product">
+                        <img src="img/flasche.png">
+                        <h1>Mate Cola</h1>
+                    </div>
+                        <div class="product">
+                        <img src="img/flasche.png">
+                            <h1>Mate Cola</h1>
+                    </div>
+                    <div class="product">
+                        <img src="img/flasche.png">
+                        <h1>Mate Cola</h1>
+                    </div>
+                    <div class="product">
+                        <img src="img/flasche.png">
+                        <h1>Mate Cola</h1>
+                        </div>
+                    <div class="product">
+                        <img src="img/flasche.png">
+                        <h1>Mate Cola</h1>
+                    </div>
+                    <div class="product">
+                        <img src="img/flasche.png">
+                        <h1>Mate Cola</h1>
+                    </div>
+                </div>
+                <!---- Begin of the second line ---->
+                <div class="line">
+                    <div class="product">
+                        <img src="img/flasche.png">
+                        <h1>Mate Cola</h1>
+                    </div>
+                    <div class="product">
+                        <img src="img/flasche.png">
+                        <h1>Mate Cola</h1>
+                    </div>
+                    <div class="product">
+                        <img src="img/flasche.png">
+                        <h1>Mate Cola</h1>
+                    </div>
+                    <div class="product">
+                        <img src="img/flasche.png">
+                        <h1>Mate Cola</h1>
+                        </div>
+                    <div class="product">
+                        <img src="img/flasche.png">
+                        <h1>Mate Cola</h1>
+                    </div>
+                </div>
+            </main>
+            <div id="bottom">
+                <div id="button_logout" onclick="onLogoutButton()">Logout</div>
+                <div id="button_buy" onclick="onBuyButton()">Buy</div>
+            </div>
+        </div>
+        <div id="add_money_page" class="page">
+            <h1>Geld hier hinzufügen.</h1>
+        </div>
+        <div id="thank_you_page" class="page">
+            <h1>Danke schön.</h1>
+            <img src="img/thankyou_cat.gif"/>
         </div>
     </body>
 </html>
