@@ -110,8 +110,10 @@ main{
 }
 
 #bottom {
-    position: relative;
-    height: 40px;
+    position: fixed;
+    bottom: 0px;
+    height: 49px;
+    width:100%;
 }
 
 #button_logout {
