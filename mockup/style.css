@@ -39,12 +39,9 @@ main{
 
 .product{
     position: relative;
-    width: 250px;
-    height: 160px;
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0px 0px 15px lightgray; 
-    margin: 15px;
+    width: 272px;
+    height: 182px;
+    background-image: url("img/tile.png");
     display: inline-block;
 }
 
@@ -122,14 +119,12 @@ main{
     left:0px;
     top: 0px;
     bottom: 0px;
-    width: 210px;
-    background-image: url(img/button_left.svg);
-    filter: drop-shadow(0px 0px 5px lightgray);
+    width: 257px;
+    height: 49px;
+    background-image: url(img/logout_button.png);
     color: white;
     text-align: center;
-    font-size: 20px;
-    padding-top: 10px;
-    padding-right: 40px;      
+    font-size: 20px;     
 }
 
 #button_buy {
@@ -137,14 +132,12 @@ main{
     right: 0px;
     top:0px;
     bottom: 0px;
-    width: 210px;
-    background-image: url(img/button_right.svg);
-    filter: drop-shadow(0px 0px 15px lightgray);
+    width: 258px;
+    height: 49px;
+    background-image: url(img/buy_button.png);
     color: white;
     text-align: center;
     font-size: 20px;
-    padding-top: 10px;
-    padding-left: 40px;
 }
 
 #notch {
@@ -155,8 +148,7 @@ main{
     right: 200px;
     background-position: center;
     background-repeat: no-repeat;
-    background-image: url(img/notch.svg);
-    filter: drop-shadow(0px 0px 5px lightgray);
+    background-image: url(img/notch.png);
     color: #484848;
     text-align: center;
     font-size: 20px;
