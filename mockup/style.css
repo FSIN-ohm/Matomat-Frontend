@@ -259,3 +259,40 @@ main{
     margin-top: 100px;
     padding-top: 12px;
 }
+
+#loading_screen {
+    position:fixed;
+    padding:0;
+    margin:0;
+
+    top:0;
+    left:0;
+
+    width: 100%;
+    height: 100%;
+    background-color: #00000055
+}
+
+#loading_window {
+    position:fixed;
+    top:50%;
+    left:50%;
+    width: 200px;
+    height: 100px;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border-radius: 10px;
+}
+
+#loading_circle {
+    position: absolute;
+    margin-left: -80px;
+    margin-top: 20px;
+}
+
+#loading_text {
+    position: absolute;
+    font-size: 25px;
+    margin-left: 10px;
+    margin-top: 35px;
+}

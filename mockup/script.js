@@ -20,6 +20,19 @@ window.onload = function() {
         }
     };
 
+    loadingScreen = {
+        screen: document.getElementById("loading_screen"),
+
+        show: function() {
+            this.screen.style.display = 'block';
+        },
+        
+        hide: function() {
+            this.screen.style.display = 'none';
+        }
+    }
+
+    loadingScreen.hide();
     pages.showPage(pages.startPage);
 }
 
