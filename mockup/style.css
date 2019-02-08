@@ -7,6 +7,7 @@ body{
     color: #484848;
     width: 800px;
     height: 480px;
+    cursor: none;
 }
 
 a {
@@ -67,6 +68,17 @@ main{
 .product > h1{
     width: 100%;
     margin:0;
+}
+
+.product > button {
+    background: transparent;
+    width: 250px;
+    height: 160px;
+    border: 0px;
+    position: absolute;
+    top: 11px;
+    left: 11px;
+    border-radius: 10px;
 }
 
 .line{
@@ -289,4 +301,19 @@ main{
     font-size: 25px;
     margin-left: 10px;
     margin-top: 35px;
+}
+
+/* Ripple effect */
+.ripple {
+    background-position: center;
+    transition: background 0.8s;
+}
+.ripple:hover {
+    background: transparent radial-gradient(circle, transparent 1%, transparent 1%) center/15000%;
+}
+
+.ripple:active {
+    background-color: #bbbbbb77;
+    background-size: 100%;
+    transition: background 0s;
 }
