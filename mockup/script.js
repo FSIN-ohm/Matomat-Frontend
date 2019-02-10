@@ -32,6 +32,26 @@ window.onload = function() {
         }
     }
 
+    errorScreen = {
+        screen: document.getElementById("error_screen"),
+        errorLine: document.getElementById("error_msg"),
+        errorPos: document.getElementById("error_pos"),
+
+        showError: function(error) {
+            var stacktrace = error.stack.split("\n");
+            this.errorPos.innerHTML = stacktrace[1].match(":[0-9]*:[0-9]*") + " in " + stacktrace[1].match("[a-zA-z]*\.js");
+            this.errorLine.innerHTML = error.name + ": " + error.message;
+            this.stacktrace = stacktrace[1];
+            this.screen.style.display = 'block';
+        },
+
+        hide: function() {
+            this.screen.style.display = 'none';
+            pages.showPage(pages.startPage);
+        }
+    }
+
+    errorScreen.hide();
     loadingScreen.hide();
     pages.showPage(pages.startPage);
 }
@@ -54,6 +74,11 @@ onAddMoneyButton = function() {
 
 onCancelAddMoney = function() {
     pages.showPage(pages.mainPage);
+}
+
+onErrorScreenClick = function() {
+    errorScreen.hide()
+    pages.showPage(pages.startPage);
 }
 
 document.onkeypress = function(e) {

@@ -140,5 +140,18 @@
                 <span id="loading_text">Laden</span>
             </div>
         </div>
+        <div id="error_screen" onclick="onErrorScreenClick()">
+            <h1>MATHOMAT</h1>
+            <div id="error_text">
+                <p class="eline" id="error_first_line">A fatal exception has occured at <span id="error_pos"></span>
+                    <br>+ The current application will be terminated.</p>
+                <p class="eline" >* Please inform your Fachschaft emediatly.
+                    <br>* Press SCREEN+ALT+DEL to restart your matohmat. You will
+                    <br>&nbsp;&nbsp;lose any unsaved transaction in all of your matohmat.
+                    <br>* <span id="error_msg"></span>
+                </p>
+                <p class="eline" id="error_last_line">Press any screen to continue _</p>
+            </div>
+        </div>
     </body>
 </html>
