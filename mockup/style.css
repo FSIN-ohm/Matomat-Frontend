@@ -59,10 +59,25 @@ main{
     padding-top: 20px;
 }
 
-.product > img {
+.product_image {
     margin-top: 20px;
     left: 40px;
     height: 100px;
+}
+
+.bobel {
+    position: absolute;
+    top: 0px;
+    left: 230px;
+}
+
+.product_count {
+    position: absolute;
+    color: white;
+    font-size: 20px;
+    top: 9px;
+    left: 238px;
+    width: 25px;
 }
 
 .product > h1{
