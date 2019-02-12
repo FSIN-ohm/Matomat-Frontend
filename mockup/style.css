@@ -60,8 +60,9 @@ main{
 }
 
 .product_image {
-    margin-top: 20px;
-    left: 40px;
+    position: absolute;
+    top: 40px;
+    left: 0px;
     height: 100px;
 }
 
@@ -81,8 +82,19 @@ main{
 }
 
 .product > h1{
-    width: 100%;
-    margin:0;
+    position: absolute;
+    width: 200px;
+    top: 40px;
+    left: 80px;
+    text-align: left;
+}
+
+.product > h2 {
+    position: absolute;
+    width: 200px;
+    top: 80px;
+    left: 80px;
+    text-align: left;
 }
 
 .product > button {
@@ -94,6 +106,23 @@ main{
     top: 11px;
     left: 11px;
     border-radius: 10px;
+}
+
+.product_remove_button {
+    background: red;
+    position: absolute;
+    bottom: 11px;
+    right: 11px;
+    width: 80px;
+    height: 60px;
+    border-radius: 0px 0px 10px 0px;
+    align-content: center;
+}
+
+.product_remove_button > img {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .line{
