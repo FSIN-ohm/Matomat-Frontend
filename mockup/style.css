@@ -67,9 +67,14 @@ main{
 }
 
 .bobel {
+    display: none;
     position: absolute;
     top: 0px;
     left: 230px;
+}
+
+.bobel > img {
+    display: 'none';
 }
 
 .product_count {
@@ -77,7 +82,7 @@ main{
     color: white;
     font-size: 20px;
     top: 9px;
-    left: 238px;
+    left: 8px;
     width: 25px;
 }
 
@@ -109,6 +114,7 @@ main{
 }
 
 .product_remove_button {
+    display: none;
     background: red;
     position: absolute;
     bottom: 11px;

@@ -1,5 +1,7 @@
 
 var keyBuffer = "";
+var productScreenScrolled = false;
+
 window.onload = function() {
     pages = {
         startPage: document.getElementById("start_page"),
@@ -79,6 +81,24 @@ onCancelAddMoney = function() {
 onErrorScreenClick = function() {
     errorScreen.hide()
     pages.showPage(pages.startPage);
+}
+
+onProductMouseDown = function() {
+    productScreenScrolled = false;
+}
+
+onProductMouseUp = function() {
+    if(!productScreenScrolled) {
+        onProductClicked();
+    }
+}
+
+onProductMouseMove = function() {
+    productScreenScrolled = true;
+}
+
+onProductClicked = function() {
+    alert("cluck");
 }
 
 document.onkeypress = function(e) {
