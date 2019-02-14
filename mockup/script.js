@@ -3,6 +3,7 @@ var keyBuffer = "";
 var productScreenScrolled = false;
 
 window.onload = function() {
+
     pages = {
         startPage: document.getElementById("start_page"),
         mainPage: document.getElementById("main_page"),
@@ -71,7 +72,7 @@ window.onload = function() {
                 <div id="product_${id}" class="product">
                     <img class="product_image" src="${imageUrl}">
                     <h1>${name}</h1>
-                    <h2>${parseFloat(price).toFixed(2)}€</h2>
+                    <h2>${parseFloat(price).toFixed(2).replace(".", ",")}€</h2>
                     <button class="ripple" onmousedown="onProductMouseDown()" onmouseup="onProductMouseUp(${id})" onmousemove="onProductMouseMove()"></button>
                     <div class="bobel">
                         <img src="img/beobel.png">
@@ -107,6 +108,7 @@ window.onload = function() {
     }
 
     session = {
+        notch: document.getElementById("notch"),
         stagedProducts: [],
 
         addProduct: function(product) {
@@ -131,8 +133,20 @@ window.onload = function() {
             return 0;
         },
 
+        getProductCostSum: function() {
+            var cost = 0;
+            for(i = 0; i < this.stagedProducts.length; i++) {
+                cost += this.stagedProducts[i].product.price
+                    * this.stagedProducts[i].count;
+            }
+            return cost;
+        },
+
         clear: function() {
+            this.notch.innerHTML = "0,00€";
             this.stagedProducts = [];
+            products.clear();
+            loadAvailableProducts();
         }
     }
 
@@ -143,22 +157,12 @@ window.onload = function() {
     loadingScreen.hide();
     pages.showPage(pages.startPage);
 
-    // THIS IS MOCKUP CODE AND NEEDS TO BE REMOVED WHEN IN PRODUCTION
-    products.addProduct(0, "Club Mate", "img/flasche.png", 0.70);
-    products.addProduct(1, "Club Mate Ice Tea", "img/flasche.png", 0.70);
-    products.addProduct(2, "Club Mate Grannat", "img/flasche.png", 0.70);
-    products.addProduct(3, "Club Mate Cola", "img/flasche.png", 0.60);
-    products.addProduct(4, "Club Mate Winter", "img/flasche.png", 0.70);
-    products.addProduct(5, "Wasser", "img/flasche.png", 0.50);
-    products.addProduct(6, "Snickers", "img/flasche.png", 0.20);
-    products.addProduct(7, "Mars", "img/flasche.png", 0.20);
-    products.addProduct(8, "Caffee", "img/flasche.png", 0.20);
-    products.addProduct(9, "Cola Orange", "img/flasche.png", 0.60);
-    products.addProduct(10, "Limo", "img/flasche.png", 0.60);
+    loadAvailableProducts();
 }
 
 onEnterPressed = function(inputString) {
     pages.showPage(pages.mainPage);
+    session.clear();
 }
 
 onLogoutButton = function() {
@@ -212,6 +216,7 @@ onProductClicked = function(product, productCard) {
 
     session.addProduct(product);
 
+    session.notch.innerHTML = parseFloat(session.getProductCostSum()).toFixed(2).replace(".", ",") + " €";
     bobelText.innerHTML = session.getProductCount(product);
     bobel.style.display = 'block';
     bobelText.style.display = 'block';
@@ -220,6 +225,21 @@ onProductClicked = function(product, productCard) {
 
 onDeleteProductClicked = function(product, productCard) {
     alert("delete");
+}
+
+loadAvailableProducts = function() {
+    // THIS IS MOCKUP CODE AND NEEDS TO BE REMOVED WHEN IN PRODUCTION
+    products.addProduct(0, "Club Mate", "img/flasche.png", 0.70);
+    products.addProduct(1, "Club Mate Ice Tea", "img/flasche.png", 0.70);
+    products.addProduct(2, "Club Mate Grannat", "img/flasche.png", 0.70);
+    products.addProduct(3, "Club Mate Cola", "img/flasche.png", 0.60);
+    products.addProduct(4, "Club Mate Winter", "img/flasche.png", 0.70);
+    products.addProduct(5, "Wasser", "img/flasche.png", 0.50);
+    products.addProduct(6, "Snickers", "img/flasche.png", 0.20);
+    products.addProduct(7, "Mars", "img/flasche.png", 0.20);
+    products.addProduct(8, "Caffee", "img/flasche.png", 0.20);
+    products.addProduct(9, "Cola Orange", "img/flasche.png", 0.60);
+    products.addProduct(10, "Limo", "img/flasche.png", 0.60);
 }
 
 document.onkeypress = function(e) {
