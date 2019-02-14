@@ -88,16 +88,17 @@ main{
 
 .product > h1{
     position: absolute;
-    width: 200px;
-    top: 40px;
+    width: 175px;
+    top: 20px;
     left: 80px;
     text-align: left;
+    vertical-align: text-bottom;
 }
 
 .product > h2 {
     position: absolute;
     width: 200px;
-    top: 80px;
+    top: 95px;
     left: 80px;
     text-align: left;
 }
