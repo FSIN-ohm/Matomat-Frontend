@@ -43,7 +43,12 @@ window.onload = function() {
             var stacktrace = error.stack.split("\n");
             this.errorPos.innerHTML = stacktrace[1].match(":[0-9]*:[0-9]*") + " in " + stacktrace[1].match("[a-zA-z]*\.js");
             this.errorLine.innerHTML = error.name + ": " + error.message;
-            this.stacktrace = stacktrace[1];
+            this.screen.style.display = 'block';
+        },
+
+        showErrorEvent: function(errorEvent) {
+            this.errorPos.innerHTML = ":" + errorEvent.lineno + ":" + errorEvent.colno + " in " + errorEvent.filename;
+            this.errorLine.innerHTML = errorEvent.type + ": " + errorEvent.message;
             this.screen.style.display = 'block';
         },
 
@@ -59,12 +64,15 @@ window.onload = function() {
         bottomRow: document.getElementById("bottom_row"),
 
         addProduct: function(id, name, imageUrl, price) {
+            var product = {id: id, name: name, imageUrl: imageUrl, price: price};
+            this.productList.push(product);
+
             var productHtml = `
-                <div class="product">
+                <div id="product_${id}" class="product">
                     <img class="product_image" src="${imageUrl}">
                     <h1>${name}</h1>
                     <h2>${parseFloat(price).toFixed(2)}€</h2>
-                    <button class="ripple" onmousedown="onProductMouseDown()" onmouseup="onProductMouseUp()" onmousemove="onProductMouseMove()"></button>
+                    <button class="ripple" onmousedown="onProductMouseDown()" onmouseup="onProductMouseUp(${id})" onmousemove="onProductMouseMove()"></button>
                     <div class="bobel">
                         <img src="img/beobel.png">
                         <div class="product_count">0</div>
@@ -80,25 +88,43 @@ window.onload = function() {
             } else {
                 this.topRow.innerHTML += productHtml;
             }
+        },
+
+        clear: function() {
+            this.productList = [];
+            this.topRow.innerHTML = '';
+            this.bottomRow.innerHTML = '';
+        },
+
+        getProductById: function(id) {
+            for(i = 0; i < this.productList.length; i++) {
+                if(this.productList[i].id == id) {
+                    return this.productList[i];
+                }
+            }
+            throw "Product id " + id + " not found";
         }
     }
 
     errorScreen.hide();
+    window.addEventListener('error', function(errorEvent) {
+        errorScreen.showErrorEvent(errorEvent);
+    });
     loadingScreen.hide();
     pages.showPage(pages.startPage);
 
     // THIS IS MOCKUP CODE AND NEEDS TO BE REMOVED WHEN IN PRODUCTION
     products.addProduct(0, "Club Mate", "img/flasche.png", 0.70);
-    products.addProduct(0, "Club Mate Ice Tea", "img/flasche.png", 0.70);
-    products.addProduct(0, "Club Mate Grannat", "img/flasche.png", 0.70);
-    products.addProduct(0, "Club Mate Cola", "img/flasche.png", 0.60);
-    products.addProduct(0, "Club Mate Winter", "img/flasche.png", 0.70);
-    products.addProduct(0, "Wasser", "img/flasche.png", 0.50);
-    products.addProduct(0, "Snickers", "img/flasche.png", 0.20);
-    products.addProduct(0, "Mars", "img/flasche.png", 0.20);
-    products.addProduct(0, "Caffee", "img/flasche.png", 0.20);
-    products.addProduct(0, "Cola Orange", "img/flasche.png", 0.60);
-    products.addProduct(0, "Limo", "img/flasche.png", 0.60);
+    products.addProduct(1, "Club Mate Ice Tea", "img/flasche.png", 0.70);
+    products.addProduct(2, "Club Mate Grannat", "img/flasche.png", 0.70);
+    products.addProduct(3, "Club Mate Cola", "img/flasche.png", 0.60);
+    products.addProduct(4, "Club Mate Winter", "img/flasche.png", 0.70);
+    products.addProduct(5, "Wasser", "img/flasche.png", 0.50);
+    products.addProduct(6, "Snickers", "img/flasche.png", 0.20);
+    products.addProduct(7, "Mars", "img/flasche.png", 0.20);
+    products.addProduct(8, "Caffee", "img/flasche.png", 0.20);
+    products.addProduct(9, "Cola Orange", "img/flasche.png", 0.60);
+    products.addProduct(10, "Limo", "img/flasche.png", 0.60);
 }
 
 onEnterPressed = function(inputString) {
@@ -130,9 +156,9 @@ onProductMouseDown = function() {
     productScreenScrolled = false;
 }
 
-onProductMouseUp = function() {
+onProductMouseUp = function(id) {
     if(!productScreenScrolled) {
-        onProductClicked();
+        onProductClicked(products.getProductById(id));
     }
 }
 
@@ -140,8 +166,8 @@ onProductMouseMove = function() {
     productScreenScrolled = true;
 }
 
-onProductClicked = function() {
-    alert("cluck");
+onProductClicked = function(product) {
+    alert(product.name);
 }
 
 document.onkeypress = function(e) {
@@ -152,4 +178,3 @@ document.onkeypress = function(e) {
         keybuffer = "";
     }
 }
-
