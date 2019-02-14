@@ -77,7 +77,7 @@ window.onload = function() {
                         <img src="img/beobel.png">
                         <div class="product_count">0</div>
                     </div>
-                    <div class="product_remove_button">
+                    <div class="product_remove_button" onmousedown="onProductMouseDown()" onmousemove="onProductMouseMove()" onmouseup="onDeleteProductMouseUp(${id})">
                         <img src="img/trash.png">
                     </div>
                 </div>
@@ -103,6 +103,36 @@ window.onload = function() {
                 }
             }
             throw "Product id " + id + " not found";
+        }
+    }
+
+    session = {
+        stagedProducts: [],
+
+        addProduct: function(product) {
+            productAlreadyStaged = false;
+            for(i = 0; i < this.stagedProducts.length; i++) {
+                if(product.id == this.stagedProducts[i].product.id) {
+                    this.stagedProducts[i].count++;
+                    productAlreadyStaged = true;
+                }
+            }
+            if(!productAlreadyStaged) {
+                this.stagedProducts.push({count: 1, product: product});
+            }
+        },
+
+        getProductCount: function(product) {
+            for(i = 0; i < this.stagedProducts.length; i++) {
+                if(product.id == this.stagedProducts[i].product.id) {
+                    return this.stagedProducts[i].count;
+                }
+            }
+            return 0;
+        },
+
+        clear: function() {
+            this.stagedProducts = [];
         }
     }
 
@@ -150,24 +180,46 @@ onCancelAddMoney = function() {
 onErrorScreenClick = function() {
     errorScreen.hide()
     pages.showPage(pages.startPage);
+    session.clear();
 }
 
 onProductMouseDown = function() {
     productScreenScrolled = false;
 }
 
-onProductMouseUp = function(id) {
-    if(!productScreenScrolled) {
-        onProductClicked(products.getProductById(id));
-    }
-}
-
 onProductMouseMove = function() {
     productScreenScrolled = true;
 }
 
-onProductClicked = function(product) {
-    alert(product.name);
+onProductMouseUp = function(id) {
+    if(!productScreenScrolled) {
+        onProductClicked(products.getProductById(id),
+        document.getElementById("product_" + id));
+    }
+}
+
+onDeleteProductMouseUp = function(id) {
+    if(!productScreenScrolled) {
+        onProductClicked(products.getProductById(id),
+        document.getElementById("product_" + id));
+    }
+}
+
+onProductClicked = function(product, productCard) {
+    bobel = productCard.getElementsByClassName("bobel")[0];
+    bobelText = productCard.getElementsByClassName("product_count")[0];
+    removeButton = productCard.getElementsByClassName("product_remove_button")[0];
+
+    session.addProduct(product);
+
+    bobelText.innerHTML = session.getProductCount(product);
+    bobel.style.display = 'block';
+    bobelText.style.display = 'block';
+    removeButton.style.display = 'block';
+}
+
+onDeleteProductClicked = function(product, productCard) {
+    alert("delete");
 }
 
 document.onkeypress = function(e) {
