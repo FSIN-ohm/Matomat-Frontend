@@ -2,7 +2,11 @@
 var keyBuffer = "";
 var productScreenScrolled = false;
 
+GIPHY_API_KEY = "X9m2ukRMWcyp7lh7YjCe4SHFU365BXWY";
+
 window.onload = function() {
+
+    thankYouGif =document.getElementById("thank_you_gif");
 
     pages = {
         startPage: document.getElementById("start_page"),
@@ -193,6 +197,10 @@ onEnterPressed = function(inputString) {
         pages.showPage(pages.mainPage);
         session.clear();
     });
+    (async () => {
+        data = await giphyRandom("X9m2ukRMWcyp7lh7YjCe4SHFU365BXWY", {tag: "thanks"});
+        thankYouGif.src = data.data.image_url;
+    })();
 }
 
 onLogoutButton = function() {
