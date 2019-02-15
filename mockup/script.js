@@ -189,8 +189,10 @@ window.onload = function() {
 }
 
 onEnterPressed = function(inputString) {
-    pages.showPage(pages.mainPage);
-    session.clear();
+    loadingMock(function() {
+        pages.showPage(pages.mainPage);
+        session.clear();
+    });
 }
 
 onLogoutButton = function() {
@@ -198,7 +200,12 @@ onLogoutButton = function() {
 }
 
 onBuyButton = function() {
-    pages.showPage(pages.thankYouPage);
+    loadingMock(function() {
+        pages.showPage(pages.thankYouPage);
+        setTimeout(function() {
+            pages.showPage(pages.startPage);
+        }, 5000);
+    });
 }
 
 onAddMoneyButton = function() {
@@ -211,8 +218,10 @@ onCancelAddMoney = function() {
 }
 
 onOkAddMoney = function() {
-    moneyKeyPad.clear();
-    pages.showPage(pages.mainPage);
+    loadingMock(function() {
+        moneyKeyPad.clear();
+        pages.showPage(pages.mainPage);
+    });
 }
 
 onErrorScreenClick = function() {
@@ -287,4 +296,14 @@ document.onkeypress = function(e) {
         onEnterPressed(keyBuffer);
         keybuffer = "";
     }
+}
+
+
+//THIS IS MOCKUP REMOVE THIS
+loadingMock = function(afterDone) {
+    loadingScreen.show();
+    setTimeout(function() {
+        loadingScreen.hide();
+        afterDone();
+    }, 1000);
 }

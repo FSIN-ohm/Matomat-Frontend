@@ -349,8 +349,9 @@ main{
 
 #loading_circle {
     position: absolute;
-    margin-left: -80px;
-    margin-top: 20px;
+    top:50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 #loading_text {
