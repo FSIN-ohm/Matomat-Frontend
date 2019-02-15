@@ -146,10 +146,38 @@ window.onload = function() {
             this.notch.innerHTML = "0,00€";
             this.stagedProducts = [];
             products.clear();
+            moneyKeyPad.clear();
             loadAvailableProducts();
         }
     }
 
+    moneyKeyPad = {
+        display: document.getElementById("money_display"),
+        centValue: 0,
+        
+        setValue: function(value) {
+            this.centValue = value * 100;
+            this.display.innerHTML = parseFloat(value).toFixed(2).replace(".", ",") + "€";
+        },
+
+        clear: function() {
+            this.centValue = 0;
+            this.display.innerHTML = "0,00€";
+        },
+
+        init: function() {
+            var numPadButtons = document.getElementsByClassName("npb");
+            for(let i = 0; i < numPadButtons.length; i++) {
+                numPadButtons[i].onclick = function() {
+                    moneyKeyPad.centValue = moneyKeyPad.centValue * 10;
+                    moneyKeyPad.centValue = moneyKeyPad.centValue + parseInt(numPadButtons[i].innerHTML)/100;
+                    moneyKeyPad.display.innerHTML = parseFloat(moneyKeyPad.centValue).toFixed(2).replace(".", ",") + "€";
+                };
+            }
+        }
+    }
+
+    moneyKeyPad.init();
     errorScreen.hide();
     window.addEventListener('error', function(errorEvent) {
         errorScreen.showErrorEvent(errorEvent);
@@ -178,6 +206,12 @@ onAddMoneyButton = function() {
 }
 
 onCancelAddMoney = function() {
+    moneyKeyPad.clear();
+    pages.showPage(pages.mainPage);
+}
+
+onOkAddMoney = function() {
+    moneyKeyPad.clear();
     pages.showPage(pages.mainPage);
 }
 
@@ -225,6 +259,10 @@ onProductClicked = function(product, productCard) {
 
 onDeleteProductClicked = function(product, productCard) {
     alert("delete");
+}
+
+onAddMoneyButtonClicked = function(amount) {
+    moneyKeyPad.setValue(amount);
 }
 
 loadAvailableProducts = function() {

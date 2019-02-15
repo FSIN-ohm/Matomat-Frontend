@@ -41,17 +41,17 @@
         </div>
         <span id="add_money_page" class="page">
                 <div class="money_button_line" id="buttons_left">
-                    <div class="money_button ripple">+5€</div>
-                    <div class="money_button ripple">+10€</div>
-                    <div class="money_button ripple">+20€</div>
-                    <div class="money_button ripple">+50€</div>
+                    <div class="money_button ripple" onclick="onAddMoneyButtonClicked(5)">+5€</div>
+                    <div class="money_button ripple" onclick="onAddMoneyButtonClicked(10)">+10€</div>
+                    <div class="money_button ripple" onclick="onAddMoneyButtonClicked(20)">+20€</div>
+                    <div class="money_button ripple" onclick="onAddMoneyButtonClicked(50)">+50€</div>
                 </div>
                 <div id="money_page_center">
                     <h1>Geld aufladen</h1>
                     <i>Wirf das Geld in den Dagobert. Gib anschliesend ein wieviel du eingeschmissen hast.</i>
                     <img id="dagobert" src="img/dagobert.png">
                 </div>
-                <div id="money_display">100,00€</div>
+                <div id="money_display">0,00€</div>
                 <table id="numpad">
                     <tr>
                         <td class="npb ripple">1</td>
@@ -69,9 +69,9 @@
                         <td class="npb ripple">9</td>
                     </tr>
                     <tr>
-                        <td class="npb" id="ok_button">OK</td>
+                        <td id="ok_button" onclick="onOkAddMoney()">OK</td>
                         <td class="npb ripple">0</td>
-                        <td class="npb" id="cancel_button" onclick="onCancelAddMoney()">X</td>
+                        <td id="cancel_button" onclick="onCancelAddMoney()">X</td>
                     </tr>
                 </table>
             </span>

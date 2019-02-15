@@ -297,11 +297,17 @@ main{
 #ok_button {
     color: white;
     background-color:#009688;
+    width: 80px;
+    height: 65px;
+    font-size:35px;
 }
 
 #cancel_button {
     color: white;
     background-color:#ff5722;
+    width: 80px;
+    height: 65px;
+    font-size:35px;
 }
 
 #money_display {
