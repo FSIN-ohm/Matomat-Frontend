@@ -150,6 +150,54 @@ main{
     display: none;
 }
 
+.bottom_button {
+    position: absolute;
+    bottom: 0px;
+    width: 257px;
+    height: 49px;
+    color: white;
+    text-align: center;
+    font-size: 20px;
+}
+
+.bottom_button_left {
+    left: 0px;
+}
+
+.bottom_button_right {
+    right: 0px;
+}
+
+.bottom_button_left > span {
+    position: absolute;
+    bottom: 7px;
+    left: 45%;
+    transform: translateX(-50%);
+}
+
+.bottom_button_right > span {
+    position: absolute;
+    bottom: 7px;
+    left: 55%;
+    transform: translateX(-50%);
+}
+
+#button_logout {
+    background-image: url(img/logout_button.png);  
+}
+
+#button_buy {
+    background-image: url(img/buy_button.png);
+}
+
+#cancel_registration {
+    background-image: url(img/logout_button.png);  
+}
+
+#accept_registration {
+    background-image: url(img/buy_button.png);
+}
+
 #back{
     border-bottom: 1px solid lightgray;
 }
@@ -177,32 +225,6 @@ main{
     bottom: 0px;
     height: 49px;
     width:100%;
-}
-
-#button_logout {
-    position: absolute;
-    left:0px;
-    top: 0px;
-    bottom: 0px;
-    width: 257px;
-    height: 49px;
-    background-image: url(img/logout_button.png);
-    color: white;
-    text-align: center;
-    font-size: 20px;     
-}
-
-#button_buy {
-    position: absolute;
-    right: 0px;
-    top:0px;
-    bottom: 0px;
-    width: 258px;
-    height: 49px;
-    background-image: url(img/buy_button.png);
-    color: white;
-    text-align: center;
-    font-size: 20px;
 }
 
 #notch {

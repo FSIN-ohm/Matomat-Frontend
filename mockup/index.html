@@ -37,8 +37,12 @@
                 </div>
             </main>
             <div id="bottom">
-                <div id="button_logout" onclick="onLogoutButton()"></div>
-                <div id="button_buy" onclick="onBuyButton()"></div>
+                <div id="button_logout" class="bottom_button bottom_button_left" onclick="onLogoutButton()">
+                    <span>Abbrechen</span>
+                </div>
+                <div id="button_buy" class="bottom_button bottom_button_right" onclick="onBuyButton()">
+                    <span>Kaufen</span>
+                </div>
             </div>
         </div>
         <span id="add_money_page" class="page">
@@ -80,6 +84,15 @@
         <div id="thank_you_page" class="page">
             <h1>Danke schön.</h1>
             <img id="thank_you_gif" src="img/thankyou_cat.gif"/>
+        </div>
+        <div id="registration_page" class="page">
+
+            <div id="cancel_registration" class="bottom_button bottom_button_left">
+                <span>Abbrechen</span>
+            </div>
+            <div id="accept_registration" class="bottom_button bottom_button_right">
+                <span>Akzeptieren</span>
+            </div>
         </div>
         <div id="loading_screen">
             <div id="loading_window">

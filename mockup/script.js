@@ -13,12 +13,13 @@ window.onload = function() {
         mainPage: document.getElementById("main_page"),
         addMoneyPage: document.getElementById("add_money_page"),
         thankYouPage: document.getElementById("thank_you_page"),
+        registrationPage: document.getElementById("registration_page"),
     
         hideAllPages: function() {
-            this.startPage.style.display = 'none';
-            this.mainPage.style.display = 'none';
-            this.addMoneyPage.style.display = 'none';
-            this.thankYouPage.style.display = 'none';
+            var pages = document.getElementsByClassName("page");
+            for(i = 0; i < pages.length; i++) {
+                pages[i].style.display = 'none';
+            }
         },
     
         showPage: function(page) {
@@ -187,7 +188,7 @@ window.onload = function() {
         errorScreen.showErrorEvent(errorEvent);
     });
     loadingScreen.hide();
-    pages.showPage(pages.startPage);
+    pages.showPage(pages.registrationPage);
 
     loadAvailableProducts();
 }
