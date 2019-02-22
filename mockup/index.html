@@ -86,13 +86,40 @@
             <img id="thank_you_gif" src="img/thankyou_cat.gif"/>
         </div>
         <div id="registration_page" class="page">
-
-            <div id="cancel_registration" class="bottom_button bottom_button_left">
+            <h1>Willkommen bei Matohmat</h1>
+            <p>Damit du den Matohmat verwenden kannst musst du dich erst registrieren.</p>
+            <ul>
+                <li>Der Getränke- und Guddiesverkauf erfolgt auf Vertrauensbasis. Bitte nutze es nicht aus,
+                    damit wir euch diesen Service auch in Zukunft anbieten können.
+                </li>
+                <li>Die Abbuchung von der Ohmkarte erfolgt nicht vom Mensakonto, sondern von unserem eigenen.
+                    Das Matohmat Konto und das Mensakonto sind unabhängig.
+                </li>
+                <li>
+                    Um dich registrieren zu können musst du zu beginn mindestens 5€ in dein Konto einzahlen.
+                </li>
+                <li>
+                    Wenn du etwas aus dem Kühlschrank nimmst fülle es bitte immer nach.
+                </li>
+                <li>
+                    Wenn dir der Matohmat gefällt oder du Ideen hast ihn zu verbessern würden wir
+                    uns freuen wenn du bei dem Projekt mit machst :D
+                </li>
+                <li>
+                    Die Fachschaft ist toll, du möchtest ihr beitreten!!!
+                </li>
+                <li>
+                    Ich habe diesen Text aufmerksam gelesen, und tippe daher zum Akzeptieren in die
+                    linke obere Ecke.
+                </li>
+            </ul>
+            <div id="cancel_registration" class="bottom_button bottom_button_left" onclick="onLogoutButton()">
                 <span>Abbrechen</span>
             </div>
             <div id="accept_registration" class="bottom_button bottom_button_right">
                 <span>Akzeptieren</span>
             </div>
+            <div id="invisible_accept_button" onclick="onInvisibleAcceptButton()"></div>
         </div>
         <div id="loading_screen">
             <div id="loading_window">

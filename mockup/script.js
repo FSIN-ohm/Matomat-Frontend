@@ -115,6 +115,7 @@ window.onload = function() {
     session = {
         notch: document.getElementById("notch"),
         stagedProducts: [],
+        isRegistration: false,
 
         addProduct: function(product) {
             productAlreadyStaged = false;
@@ -150,6 +151,7 @@ window.onload = function() {
         clear: function() {
             this.notch.innerHTML = "0,00€";
             this.stagedProducts = [];
+            this.isRegistration = false;
             products.clear();
             moneyKeyPad.clear();
             loadAvailableProducts();
@@ -188,7 +190,7 @@ window.onload = function() {
         errorScreen.showErrorEvent(errorEvent);
     });
     loadingScreen.hide();
-    pages.showPage(pages.registrationPage);
+    pages.showPage(pages.startPage);
 
     loadAvailableProducts();
 }
@@ -223,7 +225,12 @@ onAddMoneyButton = function() {
 
 onCancelAddMoney = function() {
     moneyKeyPad.clear();
-    pages.showPage(pages.mainPage);
+    if(session.isRegistration) {
+        session.clear();
+        pages.showPage(pages.startPage);
+    } else {
+        pages.showPage(pages.mainPage);
+    }
 }
 
 onOkAddMoney = function() {
@@ -298,6 +305,11 @@ loadAvailableProducts = function() {
     products.addProduct(10, "Limo", "img/flasche.png", 0.60);
 }
 
+onInvisibleAcceptButton = function() {
+    session.isRegistration = true;
+    pages.showPage(pages.addMoneyPage);
+}
+
 document.onkeypress = function(e) {
     if(e.keyCode != 13) {
         keyBuffer += String.fromCharCode(e.keyCode);
@@ -306,7 +318,6 @@ document.onkeypress = function(e) {
         keybuffer = "";
     }
 }
-
 
 //THIS IS MOCKUP REMOVE THIS
 loadingMock = function(afterDone) {
