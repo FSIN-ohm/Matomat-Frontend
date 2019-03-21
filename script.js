@@ -315,7 +315,7 @@ document.onkeypress = function(e) {
         keyBuffer += String.fromCharCode(e.keyCode);
     } else {
         onEnterPressed(keyBuffer);
-        keybuffer = "";
+        keyBuffer = "";
     }
 }
 
