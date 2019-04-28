@@ -312,6 +312,23 @@ main{
     font-size:35px;
 }
 
+#reset_button {
+    width: 80px;
+    height: 40px;
+    background-color: white;
+    font-size:35px;   
+}
+
+#delete_button {
+    width: 80px;
+    height: 35px;
+    background-color: white;
+    font-size: 40px;
+    text-align: right;
+    padding-right: 55px;
+    padding-top: -5px;
+}
+
 #dagobert {
     margin-top:60px;
 }
@@ -341,7 +358,7 @@ main{
     filter: drop-shadow(0px 0px 5px lightgray);
     border-radius: 10px;
     margin-right: 16px;
-    margin-top: 100px;
+    margin-top: 60px;
     padding-top: 12px;
 }
 
