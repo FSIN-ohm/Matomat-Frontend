@@ -312,14 +312,14 @@ main{
     font-size:35px;
 }
 
-#reset_button {
+.reset_button {
     width: 80px;
     height: 40px;
     background-color: white;
     font-size:35px;   
 }
 
-#delete_button {
+.delete_button {
     width: 80px;
     height: 35px;
     background-color: white;
