@@ -4,9 +4,9 @@ var productScreenScrolled = false;
 
 GIPHY_API_KEY = "X9m2ukRMWcyp7lh7YjCe4SHFU365BXWY";
 
-window.onload = function() {
+window.onload = function () {
 
-    thankYouGif =document.getElementById("thank_you_gif");
+    thankYouGif = document.getElementById("thank_you_gif");
 
     pages = {
         startPage: document.getElementById("start_page"),
@@ -14,15 +14,15 @@ window.onload = function() {
         addMoneyPage: document.getElementById("add_money_page"),
         thankYouPage: document.getElementById("thank_you_page"),
         registrationPage: document.getElementById("registration_page"),
-    
-        hideAllPages: function() {
+
+        hideAllPages: function () {
             var pages = document.getElementsByClassName("page");
-            for(i = 0; i < pages.length; i++) {
+            for (i = 0; i < pages.length; i++) {
                 pages[i].style.display = 'none';
             }
         },
-    
-        showPage: function(page) {
+
+        showPage: function (page) {
             this.hideAllPages();
             page.style.display = 'block';
         }
@@ -31,11 +31,11 @@ window.onload = function() {
     loadingScreen = {
         screen: document.getElementById("loading_screen"),
 
-        show: function() {
+        show: function () {
             this.screen.style.display = 'block';
         },
-        
-        hide: function() {
+
+        hide: function () {
             this.screen.style.display = 'none';
         }
     }
@@ -45,20 +45,20 @@ window.onload = function() {
         errorLine: document.getElementById("error_msg"),
         errorPos: document.getElementById("error_pos"),
 
-        showError: function(error) {
+        showError: function (error) {
             var stacktrace = error.stack.split("\n");
             this.errorPos.innerHTML = stacktrace[1].match(":[0-9]*:[0-9]*") + " in " + stacktrace[1].match("[a-zA-z]*\.js");
             this.errorLine.innerHTML = error.name + ": " + error.message;
             this.screen.style.display = 'block';
         },
 
-        showErrorEvent: function(errorEvent) {
+        showErrorEvent: function (errorEvent) {
             this.errorPos.innerHTML = ":" + errorEvent.lineno + ":" + errorEvent.colno + " in " + errorEvent.filename;
             this.errorLine.innerHTML = errorEvent.type + ": " + errorEvent.message;
             this.screen.style.display = 'block';
         },
 
-        hide: function() {
+        hide: function () {
             this.screen.style.display = 'none';
             pages.showPage(pages.startPage);
         }
@@ -69,8 +69,9 @@ window.onload = function() {
         topRow: document.getElementById("top_row"),
         bottomRow: document.getElementById("bottom_row"),
 
-        addProduct: function(id, name, imageUrl, price) {
-            var product = {id: id, name: name, imageUrl: imageUrl, price: price};
+        addProduct: function (id, name, imageUrl, price) {
+            price = price / 100;
+            var product = { id: id, name: name, imageUrl: imageUrl, price: price };
             this.productList.push(product);
 
             var productHtml = `
@@ -89,22 +90,22 @@ window.onload = function() {
                 </div>
             `;
 
-            if(this.topRow.childElementCount > this.bottomRow.childElementCount) {
+            if (this.topRow.childElementCount > this.bottomRow.childElementCount) {
                 this.bottomRow.innerHTML += productHtml;
             } else {
                 this.topRow.innerHTML += productHtml;
             }
         },
 
-        clear: function() {
+        clear: function () {
             this.productList = [];
             this.topRow.innerHTML = '';
             this.bottomRow.innerHTML = '';
         },
 
-        getProductById: function(id) {
-            for(i = 0; i < this.productList.length; i++) {
-                if(this.productList[i].id == id) {
+        getProductById: function (id) {
+            for (i = 0; i < this.productList.length; i++) {
+                if (this.productList[i].id == id) {
                     return this.productList[i];
                 }
             }
@@ -117,115 +118,123 @@ window.onload = function() {
         stagedProducts: [],
         isRegistration: false,
 
-        addProduct: function(product) {
+        addProduct: function (product) {
             productAlreadyStaged = false;
-            for(i = 0; i < this.stagedProducts.length; i++) {
-                if(product.id == this.stagedProducts[i].product.id) {
+            for (i = 0; i < this.stagedProducts.length; i++) {
+                if (product.id == this.stagedProducts[i].product.id) {
                     this.stagedProducts[i].count++;
                     productAlreadyStaged = true;
                 }
             }
-            if(!productAlreadyStaged) {
-                this.stagedProducts.push({count: 1, product: product});
+            if (!productAlreadyStaged) {
+                this.stagedProducts.push({ count: 1, product: product });
             }
         },
 
-        getProductCount: function(product) {
-            for(i = 0; i < this.stagedProducts.length; i++) {
-                if(product.id == this.stagedProducts[i].product.id) {
+        getProductCount: function (product) {
+            for (i = 0; i < this.stagedProducts.length; i++) {
+                if (product.id == this.stagedProducts[i].product.id) {
                     return this.stagedProducts[i].count;
                 }
             }
             return 0;
         },
 
-        getProductCostSum: function() {
+        getProductCostSum: function () {
             var cost = 0;
-            for(i = 0; i < this.stagedProducts.length; i++) {
+            for (i = 0; i < this.stagedProducts.length; i++) {
                 cost += this.stagedProducts[i].product.price
                     * this.stagedProducts[i].count;
             }
             return cost;
         },
 
-        clear: function() {
+        clear: function () {
             this.notch.innerHTML = "0,00€";
             this.stagedProducts = [];
             this.isRegistration = false;
             products.clear();
             moneyKeyPad.clear();
-            loadAvailableProducts();
+            getProducts();
+            //loadAvailableProducts();
         }
     }
 
     moneyKeyPad = {
         display: document.getElementById("money_display"),
         centValue: 0,
-        
-        setValue: function(value) {
-            this.centValue = value * 100;
-            this.display.innerHTML = parseFloat(value).toFixed(2).replace(".", ",") + "€";
+
+        setValue: function (value) {
+            moneyKeyPad.centValue += value;
+            moneyKeyPad.display.innerHTML = parseFloat(moneyKeyPad.centValue).toFixed(2).replace(".", ",") + "€";
         },
 
-        clear: function() {
+        clear: function () {
             this.centValue = 0;
             this.display.innerHTML = "0,00€";
         },
 
-        init: function() {
+        init: function () {
             var numPadButtons = document.getElementsByClassName("npb");
-            for(let i = 0; i < numPadButtons.length; i++) {
-                numPadButtons[i].onclick = function() {
+            for (let i = 0; i < numPadButtons.length; i++) {
+                numPadButtons[i].onclick = function () {
                     moneyKeyPad.centValue = moneyKeyPad.centValue * 10;
-                    moneyKeyPad.centValue = moneyKeyPad.centValue + parseInt(numPadButtons[i].innerHTML)/100;
+                    moneyKeyPad.centValue = moneyKeyPad.centValue + parseInt(numPadButtons[i].innerHTML) / 100;
                     moneyKeyPad.display.innerHTML = parseFloat(moneyKeyPad.centValue).toFixed(2).replace(".", ",") + "€";
                 };
             }
+        },
+
+        delete: function () {
+            moneyKeyPad.centValue = moneyKeyPad.centValue / 10;
+            moneyKeyPad.centValue = Math.floor(moneyKeyPad.centValue * 100) / 100.0;
+            moneyKeyPad.display.innerHTML = moneyKeyPad.centValue.toFixed(2).replace(".", ",") + "€";
         }
     }
 
     moneyKeyPad.init();
     errorScreen.hide();
-    window.addEventListener('error', function(errorEvent) {
+    window.addEventListener('error', function (errorEvent) {
         errorScreen.showErrorEvent(errorEvent);
     });
     loadingScreen.hide();
     pages.showPage(pages.startPage);
 
-    loadAvailableProducts();
+    getProducts();
+    //loadAvailableProducts();
 }
 
-onEnterPressed = function(inputString) {
-    loadingMock(function() {
+onEnterPressed = function (inputString) {
+    loadingMock(function () {
         pages.showPage(pages.mainPage);
         session.clear();
     });
     (async () => {
-        data = await giphyRandom("X9m2ukRMWcyp7lh7YjCe4SHFU365BXWY", {tag: "thanks"});
+        data = await giphyRandom("X9m2ukRMWcyp7lh7YjCe4SHFU365BXWY", { tag: "thanks" });
         thankYouGif.src = data.data.image_url;
     })();
 }
 
-onLogoutButton = function() {
+onLogoutButton = function () {
     pages.showPage(pages.startPage);
 }
 
-onBuyButton = function() {
-    loadingMock(function() {
+onBuyButton = function () {
+    loadingMock(function () {
         pages.showPage(pages.thankYouPage);
-        setTimeout(function() {
+        setTimeout(function () {
             pages.showPage(pages.startPage);
         }, 5000);
     });
 }
 
-onAddMoneyButton = function() {
+onAddMoneyButton = function () {
     pages.showPage(pages.addMoneyPage);
 }
 
-onCancelAddMoney = function() {
+onCancelAddMoney = function () {
     moneyKeyPad.clear();
-    if(session.isRegistration) {
+    if (session.isRegistration) {
         session.clear();
         pages.showPage(pages.startPage);
     } else {
@@ -233,31 +242,39 @@ onCancelAddMoney = function() {
     }
 }
 
-onOkAddMoney = function() {
-    loadingMock(function() {
+onOkAddMoney = function () {
+    loadingMock(function () {
         moneyKeyPad.clear();
         pages.showPage(pages.mainPage);
     });
 }
 
-onErrorScreenClick = function() {
+onResetAddMoney = function () {
+    moneyKeyPad.clear();
+}
+
+onDeleteAddMoney = function () {
+    moneyKeyPad.delete();
+}
+
+onErrorScreenClick = function () {
     errorScreen.hide()
     pages.showPage(pages.startPage);
     session.clear();
 }
 
-onProductMouseDown = function() {
+onProductMouseDown = function () {
     productScreenScrolled = false;
 }
 
-onProductMouseMove = function() {
+onProductMouseMove = function () {
     productScreenScrolled = true;
 }
 
-onProductMouseUp = function(id) {
-    if(!productScreenScrolled) {
+onProductMouseUp = function (id) {
+    if (!productScreenScrolled) {
         onProductClicked(products.getProductById(id),
-        document.getElementById("product_" + id));
+            document.getElementById("product_" + id));
     }
 }
 
@@ -268,7 +285,7 @@ onDeleteProductMouseUp = function(id) {
     }
 }
 
-onProductClicked = function(product, productCard) {
+onProductClicked = function (product, productCard) {
     bobel = productCard.getElementsByClassName("bobel")[0];
     bobelText = productCard.getElementsByClassName("product_count")[0];
     removeButton = productCard.getElementsByClassName("product_remove_button")[0];
@@ -282,15 +299,15 @@ onProductClicked = function(product, productCard) {
     removeButton.style.display = 'block';
 }
 
-onDeleteProductClicked = function(product, productCard) {
+onDeleteProductClicked = function (product, productCard) {
     alert("delete");
 }
 
-onAddMoneyButtonClicked = function(amount) {
+onAddMoneyButtonClicked = function (amount) {
     moneyKeyPad.setValue(amount);
 }
 
-loadAvailableProducts = function() {
+/*loadAvailableProducts = function () {
     // THIS IS MOCKUP CODE AND NEEDS TO BE REMOVED WHEN IN PRODUCTION
     products.addProduct(0, "Club Mate", "img/flasche.png", 0.70);
     products.addProduct(1, "Club Mate Ice Tea", "img/flasche.png", 0.70);
@@ -303,15 +320,15 @@ loadAvailableProducts = function() {
     products.addProduct(8, "Caffee", "img/flasche.png", 0.20);
     products.addProduct(9, "Cola Orange", "img/flasche.png", 0.60);
     products.addProduct(10, "Limo", "img/flasche.png", 0.60);
-}
+}*/
 
-onInvisibleAcceptButton = function() {
+onInvisibleAcceptButton = function () {
     session.isRegistration = true;
     pages.showPage(pages.addMoneyPage);
 }
 
-document.onkeypress = function(e) {
-    if(e.keyCode != 13) {
+document.onkeypress = function (e) {
+    if (e.keyCode != 13) {
         keyBuffer += String.fromCharCode(e.keyCode);
     } else {
         onEnterPressed(keyBuffer);
@@ -320,10 +337,32 @@ document.onkeypress = function(e) {
 }
 
 //THIS IS MOCKUP REMOVE THIS
-loadingMock = function(afterDone) {
+loadingMock = function (afterDone) {
     loadingScreen.show();
-    setTimeout(function() {
+    setTimeout(function () {
         loadingScreen.hide();
         afterDone();
     }, 1000);
 }
+
+var mockUp = 'http://127.0.0.1:5000/v1/';
+
+function getProducts() {
+    fetch(mockUp + 'product_infos')
+        .then(res => res.json())
+        .then(function (productInfosData) {
+            fetch(mockUp + 'products')
+                .then(res2 => res2.json())
+                .then(function (productsData) {
+                    for (let pIData of productInfosData) {
+                        for (let pData of productsData) {
+                            if (pIData.id == pData.info_id) {
+                                products.addProduct(pData.id, pIData.name, pIData.thumbnail, pData.price);
+                            }
+                        }
+                    }
+                })
+        })
+}
+
+
