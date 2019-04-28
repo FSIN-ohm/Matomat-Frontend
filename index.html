@@ -1,143 +1,150 @@
 <!DOCTYPE HTML>
 <html>
-    <head>
-        <meta charset="utf-8">  
-        <meta name="viewport" content="width=800, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-        <link rel="stylesheet" type="text/css" href="style.css"/>
-        <title>Matomat-Produktauswahl</title>
 
-        <script type="text/javascript" src="script.js"></script>
-        <script type="text/javascript" src="lib/dragscroll.js"></script>
-        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-        <script src="https://unpkg.com/giphy-random/dist/giphy-random.umd.min.js"></script>
-    </head>
-    <body>
-        <div id="start_page" class="page">
-            <h1>FSIN Matohmat</h1>
-            <i>Lege deine OHM-Karte auf den Scanner.</i>
-        </div>
-        <div id="main_page" class="page">
-            <div id="top">
-                <div id="balance">
-                     Guthaben: 0,00€
-                </div>
-                <div id="notch">
-                    0,00€
-                </div>
-                <div id="button_deposit" onclick="onAddMoneyButton()">
-                    Aufladen +
-                </div>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=800, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <title>Matomat-Produktauswahl</title>
+
+    <script type="text/javascript" src="script.js"></script>
+    <script type="text/javascript" src="lib/dragscroll.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/giphy-random/dist/giphy-random.umd.min.js"></script>
+</head>
+
+<body>
+    <div id="start_page" class="page">
+        <h1>FSIN Matohmat</h1>
+        <i>Lege deine OHM-Karte auf den Scanner.</i>
+    </div>
+    <div id="main_page" class="page">
+        <div id="top">
+            <div id="balance">
+                Guthaben: 0,00€
             </div>
-            <main class="dragscroll">
-                <!---- begin of the first line---->
-                <div id="top_row" class="line">
-                </div>
-                <!---- Begin of the second line ---->
-                <div id="bottom_row" class="line">
-                </div>
-            </main>
-            <div id="bottom">
-                <div id="button_logout" class="bottom_button bottom_button_left" onclick="onLogoutButton()">
-                    <span>Abbrechen</span>
-                </div>
-                <div id="button_buy" class="bottom_button bottom_button_right" onclick="onBuyButton()">
-                    <span>Kaufen</span>
-                </div>
+            <div id="notch">
+                0,00€
+            </div>
+            <div id="button_deposit" onclick="onAddMoneyButton()">
+                Aufladen +
             </div>
         </div>
-        <span id="add_money_page" class="page">
-                <div class="money_button_line" id="buttons_left">
-                    <div class="money_button ripple" onclick="onAddMoneyButtonClicked(5)">+5€</div>
-                    <div class="money_button ripple" onclick="onAddMoneyButtonClicked(10)">+10€</div>
-                    <div class="money_button ripple" onclick="onAddMoneyButtonClicked(20)">+20€</div>
-                    <div class="money_button ripple" onclick="onAddMoneyButtonClicked(50)">+50€</div>
-                </div>
-                <div id="money_page_center">
-                    <h1>Geld aufladen</h1>
-                    <i>Wirf das Geld in den Dagobert. Gib anschließend ein, wieviel du eingeschmissen hast.</i>
-                    <img id="dagobert" src="img/dagobert.png">
-                </div>
-                <div id="money_display">0,00€</div>
-                <table id="numpad">
-                    <tr>
-                        <td class="npb ripple">1</td>
-                        <td class="npb ripple">2</td>
-                        <td class="npb ripple">3</td>
-                    </tr>
-                    <tr>
-                        <td class="npb ripple">4</td>
-                        <td class="npb ripple">5</td>
-                        <td class="npb ripple">6</td>
-                    </tr>
-                    <tr>
-                        <td class="npb ripple">7</td>
-                        <td class="npb ripple">8</td>
-                        <td class="npb ripple">9</td>
-                    </tr>
-                    <tr>
-                        <td id="ok_button" onclick="onOkAddMoney()">OK</td>
-                        <td class="npb ripple">0</td>
-                        <td id="cancel_button" onclick="onCancelAddMoney()">X</td>
-                    </tr>
-                </table>
-            </span>
-        <div id="thank_you_page" class="page">
-            <h1>Dankeschön.</h1>
-            <img id="thank_you_gif" src="img/thankyou_cat.gif"/>
-        </div>
-        <div id="registration_page" class="page">
-            <h1>Willkommen bei Matohmat</h1>
-            <p>Damit du den Matohmat verwenden kannst, musst du dich erst registrieren.</p>
-            <ul>
-                <li>Der Getränke- und Goodiesverkauf erfolgt auf Vertrauensbasis. Bitte nutze es nicht aus,
-                    damit wir euch diesen Service auch in Zukunft weiter anbieten können.
-                </li>
-                <li>Die Abbuchung von der Ohmkarte erfolgt nicht vom Mensakonto, sondern von unserem eigenen.
-                    Das Matohmat-Konto und das Mensakonto sind voneinander unabhängig.
-                </li>
-                <li>
-                    Um dich registrieren zu können, musst du zu Beginn mindestens 5€ in dein Konto einzahlen.
-                </li>
-                <li>
-                    Wenn du etwas aus dem Kühlschrank nimmst, fülle es bitte immer nach.
-                </li>
-                <li>
-                    Wenn dir der Matohmat gefällt oder du Ideen hast, ihn zu verbessern, würden wir
-                    uns freuen, wenn du bei dem Projekt mitmachst. :D
-                </li>
-                <li>
-                    Die Fachschaft ist toll, du möchtest ihr beitreten!!!
-                </li>
-                <li>
-                    Ich habe diesen Text aufmerksam gelesen und tippe daher zum Akzeptieren in die
-                    linke obere Ecke.
-                </li>
-            </ul>
-            <div id="cancel_registration" class="bottom_button bottom_button_left" onclick="onLogoutButton()">
+        <main class="dragscroll">
+            <!---- begin of the first line---->
+            <div id="top_row" class="line">
+            </div>
+            <!---- Begin of the second line ---->
+            <div id="bottom_row" class="line">
+            </div>
+        </main>
+        <div id="bottom">
+            <div id="button_logout" class="bottom_button bottom_button_left" onclick="onLogoutButton()">
                 <span>Abbrechen</span>
             </div>
-            <div id="accept_registration" class="bottom_button bottom_button_right">
-                <span>Akzeptieren</span>
-            </div>
-            <div id="invisible_accept_button" onclick="onInvisibleAcceptButton()"></div>
-        </div>
-        <div id="loading_screen">
-            <div id="loading_window">
-                <img id="loading_circle" src="img/hamser2.gif"/>
+            <div id="button_buy" class="bottom_button bottom_button_right" onclick="onBuyButton()">
+                <span>Kaufen</span>
             </div>
         </div>
-        <div id="error_screen" onclick="onErrorScreenClick()">
-            <h1>MATOHMAT</h1>
-            <div id="error_text">
-                <p class="eline" id="error_first_line">A fatal exception has occurred at <span id="error_pos"></span>
-                    <br>+ The current session will be terminated.</p>
-                <p class="eline" >* Please inform your Fachschaft immediately.
-                    <br>* Press SCREEN+ALT+DEL to restart your Matohmat. You will
-                    <br>&nbsp;&nbsp;lose any unsaved transaction in all of your Matohmat.
-                    <br>* <span id="error_msg"></span>
-                </p>
-                <p class="eline" id="error_last_line">Press any screen to continue _</p>
-            </div>
+    </div>
+    <span id="add_money_page" class="page">
+        <div class="money_button_line" id="buttons_left">
+            <div class="money_button ripple" onclick="onAddMoneyButtonClicked(5)">+5€</div>
+            <div class="money_button ripple" onclick="onAddMoneyButtonClicked(10)">+10€</div>
+            <div class="money_button ripple" onclick="onAddMoneyButtonClicked(20)">+20€</div>
+            <div class="money_button ripple" onclick="onAddMoneyButtonClicked(50)">+50€</div>
         </div>
-    </body>
+        <div id="money_page_center">
+            <h1>Geld aufladen</h1>
+            <i>Wirf das Geld in den Dagobert. Gib anschließend ein, wieviel du eingeschmissen hast.</i>
+            <img id="dagobert" src="img/dagobert.png">
+        </div>
+        <div id="money_display">0,00€</div>
+        <table id="numpad">
+            <tr>
+                <td id="reset_button" onclick="onResetAddMoney()">C</td> 
+                <td colspan="3" id="delete_button" onclick="onDeleteAddMoney()">&#8678;</td>
+            </tr>
+            <tr>
+                <td class="npb ripple">1</td>
+                <td class="npb ripple">2</td>
+                <td class="npb ripple">3</td>
+            </tr>
+            <tr>
+                <td class="npb ripple">4</td>
+                <td class="npb ripple">5</td>
+                <td class="npb ripple">6</td>
+            </tr>
+            <tr>
+                <td class="npb ripple">7</td>
+                <td class="npb ripple">8</td>
+                <td class="npb ripple">9</td>
+            </tr>
+            <tr>
+                <td id="ok_button" onclick="onOkAddMoney()">OK</td>
+                <td class="npb ripple">0</td>
+                <td id="cancel_button" onclick="onCancelAddMoney()">X</td>
+            </tr>
+        </table>
+    </span>
+    <div id="thank_you_page" class="page">
+        <h1>Dankeschön.</h1>
+        <img id="thank_you_gif" src="img/thankyou_cat.gif"/>
+    </div>
+    <div id="registration_page" class="page">
+        <h1>Willkommen bei Matohmat</h1>
+        <p>Damit du den Matohmat verwenden kannst, musst du dich erst registrieren.</p>
+        <ul>
+            <li>Der Getränke- und Goodiesverkauf erfolgt auf Vertrauensbasis. Bitte nutze es nicht aus,
+                damit wir euch diesen Service auch in Zukunft weiter anbieten können.
+            </li>
+            <li>Die Abbuchung von der Ohmkarte erfolgt nicht vom Mensakonto, sondern von unserem eigenen.
+                Das Matohmat-Konto und das Mensakonto sind voneinander unabhängig.
+            </li>
+            <li>
+                Um dich registrieren zu können, musst du zu Beginn mindestens 5€ in dein Konto einzahlen.
+            </li>
+            <li>
+                Wenn du etwas aus dem Kühlschrank nimmst, fülle es bitte immer nach.
+            </li>
+            <li>
+                Wenn dir der Matohmat gefällt oder du Ideen hast, ihn zu verbessern, würden wir
+                uns freuen, wenn du bei dem Projekt mitmachst. :D
+            </li>
+            <li>
+                Die Fachschaft ist toll, du möchtest ihr beitreten!!!
+            </li>
+            <li>
+                Ich habe diesen Text aufmerksam gelesen und tippe daher zum Akzeptieren in die
+                linke obere Ecke.
+            </li>
+        </ul>
+        <div id="cancel_registration" class="bottom_button bottom_button_left" onclick="onLogoutButton()">
+            <span>Abbrechen</span>
+        </div>
+        <div id="accept_registration" class="bottom_button bottom_button_right">
+            <span>Akzeptieren</span>
+        </div>
+        <div id="invisible_accept_button" onclick="onInvisibleAcceptButton()"></div>
+    </div>
+    <div id="loading_screen">
+        <div id="loading_window">
+            <img id="loading_circle" src="img/hamser2.gif"/>
+        </div>
+    </div>
+    <div id="error_screen" onclick="onErrorScreenClick()">
+        <h1>MATOHMAT</h1>
+        <div id="error_text">
+            <p class="eline" id="error_first_line">A fatal exception has occurred at <span id="error_pos"></span>
+                <br>+ The current session will be terminated.</p>
+            <p class="eline">* Please inform your Fachschaft immediately.
+                <br>* Press SCREEN+ALT+DEL to restart your Matohmat. You will
+                <br>&nbsp;&nbsp;lose any unsaved transaction in all of your Matohmat.
+                <br>* <span id="error_msg"></span>
+            </p>
+            <p class="eline" id="error_last_line">Press any screen to continue _</p>
+        </div>
+    </div>
+</body>
+
 </html>
