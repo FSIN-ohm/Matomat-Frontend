@@ -122,19 +122,33 @@ window.onload = function () {
             productAlreadyStaged = false;
             for (i = 0; i < this.stagedProducts.length; i++) {
                 if (product.id == this.stagedProducts[i].product.id) {
-                    this.stagedProducts[i].count++;
+                    this.stagedProducts[i].countAddProduct++;
                     productAlreadyStaged = true;
                 }
             }
             if (!productAlreadyStaged) {
-                this.stagedProducts.push({ count: 1, product: product });
+                this.stagedProducts.push({ countAddProduct: 1, count: 1, product: product });
             }
         },
 
         getProductCount: function (product) {
             for (i = 0; i < this.stagedProducts.length; i++) {
                 if (product.id == this.stagedProducts[i].product.id) {
-                    return this.stagedProducts[i].count;
+                    return this.stagedProducts[i].count++;
+                }
+            }
+            return 0;
+        },
+
+        getProductCountDelete: function (product) {
+            for (i = 0; i < this.stagedProducts.length; i++) {
+                if (product.id == this.stagedProducts[i].product.id) {
+                    if (this.stagedProducts[i].count > 0) {
+                        return this.stagedProducts[i].count--;
+                    }
+                    else if (this.stagedProducts[i].count = 0) {
+                        return this.stagedProducts[i].count;
+                    }
                 }
             }
             return 0;
@@ -272,31 +286,45 @@ onProductMouseMove = function () {
 }
 
 onProductMouseUp = function (id) {
+    deleted = false;
     if (!productScreenScrolled) {
         onProductClicked(products.getProductById(id),
-            document.getElementById("product_" + id));
+            document.getElementById("product_" + id), deleted);
     }
 }
 
-onDeleteProductMouseUp = function(id) {
-    if(!productScreenScrolled) {
+onDeleteProductMouseUp = function (id) {
+    deleted = true;
+    if (!productScreenScrolled) {
         onProductClicked(products.getProductById(id),
-        document.getElementById("product_" + id));
+            document.getElementById("product_" + id), deleted);
     }
 }
 
-onProductClicked = function (product, productCard) {
+onProductClicked = function (product, productCard, productDeleted) {
     bobel = productCard.getElementsByClassName("bobel")[0];
     bobelText = productCard.getElementsByClassName("product_count")[0];
     removeButton = productCard.getElementsByClassName("product_remove_button")[0];
 
     session.addProduct(product);
-
     session.notch.innerHTML = parseFloat(session.getProductCostSum()).toFixed(2).replace(".", ",") + " €";
-    bobelText.innerHTML = session.getProductCount(product);
-    bobel.style.display = 'block';
-    bobelText.style.display = 'block';
-    removeButton.style.display = 'block';
+    if (productDeleted == true) {
+        bobelText.innerHTML = session.getProductCountDelete(product);
+    }
+    else if (productDeleted == false) {
+        bobelText.innerHTML = session.getProductCount(product);
+    }
+
+    if (bobelText.innerHTML != "0") {
+        bobel.style.display = 'block';
+        bobelText.style.display = 'block';
+        removeButton.style.display = 'block';
+    }
+    else if (bobelText.innerHTML == "0") {
+        bobel.style.display = 'none';
+        bobelText.style.display = 'none';
+        removeButton.style.display = 'none';
+    }
 }
 
 onDeleteProductClicked = function (product, productCard) {
