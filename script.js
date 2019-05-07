@@ -118,11 +118,16 @@ window.onload = function () {
         stagedProducts: [],
         isRegistration: false,
 
-        addProduct: function (product) {
+        addDeleteProduct: function (product, deleted) {
             productAlreadyStaged = false;
             for (i = 0; i < this.stagedProducts.length; i++) {
                 if (product.id == this.stagedProducts[i].product.id) {
-                    this.stagedProducts[i].count;
+                    if (!deleted) {
+                        this.stagedProducts[i].count++;
+                    }
+                    else if (deleted) {
+                        this.stagedProducts[i].count--;
+                    }
                     productAlreadyStaged = true;
                 }
             }
@@ -134,7 +139,7 @@ window.onload = function () {
         getProductCount: function (product) {
             for (i = 0; i < this.stagedProducts.length; i++) {
                 if (product.id == this.stagedProducts[i].product.id) {
-                    return this.stagedProducts[i].count++;
+                    return this.stagedProducts[i].count;
                 }
             }
             return 0;
@@ -144,7 +149,7 @@ window.onload = function () {
             for (i = 0; i < this.stagedProducts.length; i++) {
                 if (product.id == this.stagedProducts[i].product.id) {
                     if (this.stagedProducts[i].count > 0) {
-                        return this.stagedProducts[i].count--;
+                        return this.stagedProducts[i].count;
                     }
                     else if (this.stagedProducts[i].count = 0) {
                         return this.stagedProducts[i].count;
@@ -307,14 +312,16 @@ onProductClicked = function (product, productCard, productDeleted) {
     bobelText = productCard.getElementsByClassName("product_count")[0];
     removeButton = productCard.getElementsByClassName("product_remove_button")[0];
 
-    session.addProduct(product);
-    session.notch.innerHTML = parseFloat(session.getProductCostSum()).toFixed(2).replace(".", ",") + " €";
     if (productDeleted == true) {
+        session.addDeleteProduct(product, true);
         bobelText.innerHTML = session.getProductCountDelete(product);
     }
     else if (productDeleted == false) {
+        session.addDeleteProduct(product, false);
         bobelText.innerHTML = session.getProductCount(product);
     }
+    session.notch.innerHTML = parseFloat(session.getProductCostSum()).toFixed(2).replace(".", ",") + " €";
+
 
     if (bobelText.innerHTML != "0") {
         bobel.style.display = 'block';
