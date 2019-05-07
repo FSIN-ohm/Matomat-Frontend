@@ -122,12 +122,12 @@ window.onload = function () {
             productAlreadyStaged = false;
             for (i = 0; i < this.stagedProducts.length; i++) {
                 if (product.id == this.stagedProducts[i].product.id) {
-                    this.stagedProducts[i].countAddProduct++;
+                    this.stagedProducts[i].count;
                     productAlreadyStaged = true;
                 }
             }
             if (!productAlreadyStaged) {
-                this.stagedProducts.push({ countAddProduct: 1, count: 1, product: product });
+                this.stagedProducts.push({ count: 1, product: product });
             }
         },
 
@@ -156,6 +156,7 @@ window.onload = function () {
 
         getProductCostSum: function () {
             var cost = 0;
+
             for (i = 0; i < this.stagedProducts.length; i++) {
                 cost += this.stagedProducts[i].product.price
                     * this.stagedProducts[i].count;
@@ -376,20 +377,12 @@ loadingMock = function (afterDone) {
 var mockUp = 'http://127.0.0.1:5000/v1/';
 
 function getProducts() {
-    fetch(mockUp + 'product_infos')
+    fetch(mockUp + 'products')
         .then(res => res.json())
-        .then(function (productInfosData) {
-            fetch(mockUp + 'products')
-                .then(res2 => res2.json())
-                .then(function (productsData) {
-                    for (let pIData of productInfosData) {
-                        for (let pData of productsData) {
-                            if (pIData.id == pData.info_id) {
-                                products.addProduct(pData.id, pIData.name, pIData.thumbnail, pData.price);
-                            }
-                        }
-                    }
-                })
+        .then(function (productsData) {
+            for (let pData of productsData) {
+                products.addProduct(pData.id, pData.name, pData.thumbnail, pData.price);
+            }
         })
 }
 
