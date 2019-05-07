@@ -1,0 +1,27 @@
+{
+    "id": 3,
+    "date": "2019-03-10T09:40:11",
+    "sender": 2,
+    "receiver": 7,
+    "amount": 2398,
+    "buy_cost": 2843,
+    "transaction_type": "order",
+    "purchased": [
+        {
+            "product": 1,
+            "amount": 350
+        },
+        {
+            "product": 2,
+            "amount": 586
+        },
+        {
+            "product": 4,
+            "amount": 743
+        },
+        {
+            "product": 3,
+            "amount": 1164
+        }
+    ]
+}

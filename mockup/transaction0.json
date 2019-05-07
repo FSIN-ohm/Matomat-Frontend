@@ -1,0 +1,8 @@
+{
+    "id": 1,
+    "date": "2019-01-13T12:00:15",
+    "sender": 1,
+    "receiver": 3,
+    "amount": 200,
+    "transaction_type": "transfer"
+}

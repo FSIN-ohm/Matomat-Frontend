@@ -1,0 +1,11 @@
+{
+    "id": 1,
+    "price": 120,
+    "valid_from": "2019-02-13T12:00:15",
+    "name": "Mate",
+    "thumbnail": "https://cdn.shopify.com/s/files/1/0015/6198/5097/products/club_mate_dc594378-e79a-403e-bca7-bf9e77bb97bd_300x300.png?v=1549710927",
+    "reorder_point": 10,
+    "barcode": "MateTest",
+    "items_per_crate": 12,
+    "stock": 67
+}
