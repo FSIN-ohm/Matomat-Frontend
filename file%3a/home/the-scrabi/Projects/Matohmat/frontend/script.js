@@ -194,7 +194,7 @@ window.onload = function () {
         setUserInfo: function(id, balance) {
             this.userId = id;
             this.balance = balance;
-            this.balanceTag.innerHTML = "Guthaben: " + parseFloat(balance/100).toFixed(2).replace(".", ",") + " €";
+            this.balanceTag.innerHTML = "Guthaben: " + parseFloat(balance).toFixed(2).replace(".", ",") + " €";
         },
 
         getAuthHeader() {
@@ -260,18 +260,15 @@ function onEnterPressed(inputString) {
                 pages.showPage(pages.mainPage);
                 loadingScreen.hide();
             });
-            res.json()
-                .then(function(userData) {
-                    session.setUserInfo(userData.id, userData.balance);
-                })
-                .catch(error => errorScreen.showError(error));
+            userData = res.json();
+            session.setUserInfo(userData.id, userData.balance);
         } else {
             pages.showPage(pages.registrationPage);
             loadingScreen.hide();
         }
     });
     (async () => {
-        let data = await giphyRandom("X9m2ukRMWcyp7lh7YjCe4SHFU365BXWY", { tag: "thanks" });
+        data = await giphyRandom("X9m2ukRMWcyp7lh7YjCe4SHFU365BXWY", { tag: "thanks" });
         thankYouGif.src = data.data.image_url;
     })();
 }
@@ -424,12 +421,13 @@ function loadUser(callback) {
 
 function loadProducts(callback) {
     fetch(server + '/v1/products', {method:'GET', headers:session.getAuthHeader()})
-        .then(res => res.json())
         .then(callback)
+        .then(res => res.json())
         .catch(error => errorScreen.showError(error));
 }
 
 function sendPurchase(callback, data) {
+    //TODO: make this actually work
     fetch(server + '/v1/transactions/purchase', {
         method: 'POST',
         headers: session.getAuthHeader(),
@@ -442,6 +440,7 @@ function sendPurchase(callback, data) {
 }
 
 function sendDeposit(callback, data) {
+    //TODO: make this actually work
     fetch(server + '/v1/transactions/deposit', {
         method: 'POST',
         headers: session.getAuthHeader(),
