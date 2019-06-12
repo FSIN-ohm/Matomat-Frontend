@@ -280,12 +280,24 @@ function onLogoutButton() {
 }
 
 function onBuyButton() {
-    loadingMock(function () {
-        pages.showPage(pages.thankYouPage);
-        setTimeout(function () {
-            pages.showPage(pages.startPage);
-        }, 5000);
-    });
+    if(session.getProductCostSum() > session.balance) {
+        try {
+            throw new Error("You don't have enought money.");
+        } catch (e) {
+            errorScreen.showError(e);
+        }
+    } else if(session.stagedProducts.length == 0) {
+        session.clear();
+        pages.showPage(pages.startPage);
+    } else {
+        sendPurchase(session.stagedProducts, function() {
+            session.clear();
+            pages.showPage(pages.thankYouPage);
+            setTimeout(function () {
+                pages.showPage(pages.startPage);
+            }, 5000)
+        });
+    }
 }
 
 function onAddMoneyButton() {
@@ -456,7 +468,17 @@ function loadProducts(callback) {
         .catch(error => errorScreen.showError(error));
 }
 
-function sendPurchase(data, callback) {
+function sendPurchase(stagedProducts, callback) {
+    let orders = [];
+    for (let sProduct of stagedProducts) {
+        orders.push({
+            product: sProduct.product.id,
+            amount: sProduct.count
+        });
+    }
+    
+    let data = {orders:orders};
+
     fetch(server + '/v1/transactions/purchase', {
         method: 'POST',
         headers: session.getAuthHeader(),
