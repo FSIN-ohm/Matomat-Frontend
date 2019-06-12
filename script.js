@@ -2,7 +2,7 @@
 var keyBuffer = "";
 var productScreenScrolled = false;
 
-var server = 'http://127.0.0.1:5000';
+var server = 'http://127.0.0.1:8080';
 
 GIPHY_API_KEY = "X9m2ukRMWcyp7lh7YjCe4SHFU365BXWY";
 
@@ -49,8 +49,12 @@ window.onload = function () {
 
 
         showError: function (error) {
-            var stacktrace = error.stack.split("\n");
-            this.errorPos.innerHTML = stacktrace[1].match(":[0-9]*:[0-9]*") + " in " + stacktrace[1].match("[a-zA-z]*\.js");
+            session.clear();
+            let stacktrace = error.stack.split("\n");
+            if(stacktrace.length > 1)
+                this.errorPos.innerHTML = stacktrace[1].match(":[0-9]*:[0-9]*") + " in " + stacktrace[1].match("[a-zA-z]*\.js");
+            else
+                this.errorPos.innerHTML = "somwhere in the source";
             this.errorLine.innerHTML = error.name + ": " + error.message;
             this.screen.style.display = 'block';
         },
@@ -182,9 +186,9 @@ window.onload = function () {
             this.isRegistration = false;
             products.clear();
             moneyKeyPad.clear();
-            userHash = "";
-            userId = -1;
-            balance = -1;
+            this.userHash = "";
+            this.userId = -1;
+            this.balance = -1;
         },
         
         setCardId: function(userId) {
@@ -202,6 +206,7 @@ window.onload = function () {
                 throw "No user hash";
             headers = new Headers();
             headers.append('Authorization', 'Basic ' + btoa(this.userHash + ':'));
+            headers.append('Content-Type', 'application/json');
             return headers;
         }
     }
@@ -212,7 +217,7 @@ window.onload = function () {
 
         setValue: function (value) {
             moneyKeyPad.centValue += value;
-            moneyKeyPad.display.innerHTML = parseFloat(moneyKeyPad.centValue).toFixed(2).replace(".", ",") + "€";
+            moneyKeyPad.display.innerHTML = parseFloat(moneyKeyPad.centValue/100).toFixed(2).replace(".", ",") + "€";
         },
 
         clear: function () {
@@ -225,16 +230,15 @@ window.onload = function () {
             for (let i = 0; i < numPadButtons.length; i++) {
                 numPadButtons[i].onclick = function () {
                     moneyKeyPad.centValue = moneyKeyPad.centValue * 10;
-                    moneyKeyPad.centValue = moneyKeyPad.centValue + parseInt(numPadButtons[i].innerHTML) / 100;
-                    moneyKeyPad.display.innerHTML = parseFloat(moneyKeyPad.centValue).toFixed(2).replace(".", ",") + "€";
+                    moneyKeyPad.centValue = moneyKeyPad.centValue + parseInt(numPadButtons[i].innerHTML);
+                    moneyKeyPad.display.innerHTML = parseFloat(moneyKeyPad.centValue/100).toFixed(2).replace(".", ",") + "€";
                 };
             }
         },
 
         delete: function () {
-            moneyKeyPad.centValue = moneyKeyPad.centValue / 10;
-            moneyKeyPad.centValue = Math.floor(moneyKeyPad.centValue * 100) / 100.0;
-            moneyKeyPad.display.innerHTML = moneyKeyPad.centValue.toFixed(2).replace(".", ",") + "€";
+            moneyKeyPad.centValue = Math.floor(moneyKeyPad.centValue / 10);
+            moneyKeyPad.display.innerHTML = parseFloat(moneyKeyPad.centValue/100).toFixed(2).replace(".", ",") + "€";
         }
     }
 
@@ -248,35 +252,30 @@ window.onload = function () {
 }
 
 function onEnterPressed(inputString) {
-    session.clear();
-    session.setCardId(inputString);
-    loadingScreen.show();
-    loadUser(function(res) {
-        if(res.status == 200) {
-            loadProducts(function(productsData) {
-                for (let pData of productsData) {
-                    products.addProduct(pData.id, pData.name, pData.thumbnail, pData.price);
-                }
-                pages.showPage(pages.mainPage);
-                loadingScreen.hide();
-            });
-            res.json()
-                .then(function(userData) {
-                    session.setUserInfo(userData.id, userData.balance);
-                })
-                .catch(error => errorScreen.showError(error));
+    if(session.isRegistration) {
+        if(session.userHash == sha256(inputString)) {
+            pages.showPage(pages.addMoneyPage);
         } else {
-            pages.showPage(pages.registrationPage);
-            loadingScreen.hide();
+            try {
+                throw new Error("id card is not akzeptable");
+            } catch(e) {
+                errorScreen.showError(e);
+            }
         }
-    });
-    (async () => {
-        let data = await giphyRandom("X9m2ukRMWcyp7lh7YjCe4SHFU365BXWY", { tag: "thanks" });
-        thankYouGif.src = data.data.image_url;
-    })();
+    } else {
+        session.clear();
+        session.setCardId(inputString);
+        loadingScreen.show();
+        setupSession();
+        (async () => {
+            let data = await giphyRandom("X9m2ukRMWcyp7lh7YjCe4SHFU365BXWY", { tag: "thanks" });
+            thankYouGif.src = data.data.image_url;
+        })();
+    }
 }
 
 function onLogoutButton() {
+    session.clear();
     pages.showPage(pages.startPage);
 }
 
@@ -304,10 +303,39 @@ function onCancelAddMoney() {
 }
 
 function onOkAddMoney() {
-    loadingMock(function () {
+    if(session.isRegistration) {
+        if(moneyKeyPad.centValue >= 500) {
+            loadingScreen.show();
+            registerUser(session.userHash, function(status) {
+                sendDeposit(moneyKeyPad.centValue, function() {
+                    session.isRegistration = false;
+                    sendDeposit(moneyKeyPad.centValue);
+                    setupSession();
+                });
+                moneyKeyPad.clear();
+            });
+        } else {
+            try {
+                throw new Error("You didn't enter enough money.")
+            } catch(e) {
+                errorScreen.showError(e);
+            }
+        }
+    } else {
+        loadingScreen.show();
+        sendDeposit(moneyKeyPad.centValue, function(status) {
+            loadUser(function(res) {
+                res.json()
+                .then(function(userData) {
+                    session.setUserInfo(userData.id, userData.balance);
+                    pages.showPage(pages.mainPage);
+                    loadingScreen.hide();
+                })
+                .catch(error => errorScreen.showError(error));
+            });
+        });
         moneyKeyPad.clear();
-        pages.showPage(pages.mainPage);
-    });
+    }
 }
 
 function onResetAddMoney() {
@@ -319,9 +347,8 @@ function onDeleteAddMoney() {
 }
 
 function onErrorScreenClick() {
-    errorScreen.hide()
     pages.showPage(pages.startPage);
-    session.clear();
+    errorScreen.hide()
 }
 
 function onProductMouseDown() {
@@ -429,7 +456,7 @@ function loadProducts(callback) {
         .catch(error => errorScreen.showError(error));
 }
 
-function sendPurchase(callback, data) {
+function sendPurchase(data, callback) {
     fetch(server + '/v1/transactions/purchase', {
         method: 'POST',
         headers: session.getAuthHeader(),
@@ -441,7 +468,10 @@ function sendPurchase(callback, data) {
         .catch(error => errorScreen.showError(error));
 }
 
-function sendDeposit(callback, data) {
+function sendDeposit(cents, callback) {
+    let data = {
+        amount: cents
+    };
     fetch(server + '/v1/transactions/deposit', {
         method: 'POST',
         headers: session.getAuthHeader(),
@@ -451,4 +481,47 @@ function sendDeposit(callback, data) {
         .then(res => res.status)
         .then(callback)
         .catch(error => errorScreen.showError(error));
+}
+
+function registerUser(userHash, callback) {
+    // Todo: This key MUST be outsourced
+    let key = "secrectmatohmatkeyvalueifii48487vhfueu";
+    headers = new Headers();
+    headers.append('Authorization', 'Basic ' + btoa(key + ':'));
+    headers.append('Content-Type', 'application/json');
+    let data = {
+        auth_hash: userHash
+    };
+    fetch(server + '/v1/users', {
+        method: 'POST',
+        headers: headers,
+        cahce: 'no-cache',
+        body: JSON.stringify(data)
+    })
+        .then(res => res.status)
+        .then(callback)
+        .catch(error => errorScreen.showError(error));
+}
+
+function setupSession() {
+    loadUser(function(res) {
+        if(res.status == 200) {
+            loadProducts(function(productsData) {
+                for (let pData of productsData) {
+                    products.addProduct(pData.id, pData.name, pData.thumbnail, pData.price);
+                }
+                pages.showPage(pages.mainPage);
+                loadingScreen.hide();
+            });
+            res.json()
+                .then(function(userData) {
+                    session.setUserInfo(userData.id, userData.balance);
+                })
+                .catch(error => errorScreen.showError(error));
+        } else {
+            session.isRegistration = true;
+            pages.showPage(pages.registrationPage);
+            loadingScreen.hide();
+        }
+    });
 }
