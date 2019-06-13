@@ -5,6 +5,7 @@ var productScreenScrolled = false;
 var server = 'http://127.0.0.1:8080';
 
 GIPHY_API_KEY = "X9m2ukRMWcyp7lh7YjCe4SHFU365BXWY";
+var deviceKey = "";
 
 window.onload = function () {
 
@@ -249,6 +250,7 @@ window.onload = function () {
     });
     loadingScreen.hide();
     pages.showPage(pages.startPage);
+    readDeviceKey();
 }
 
 function onEnterPressed(inputString) {
@@ -507,9 +509,8 @@ function sendDeposit(cents, callback) {
 
 function registerUser(userHash, callback) {
     // Todo: This key MUST be outsourced
-    let key = "secrectmatohmatkeyvalueifii48487vhfueu";
     headers = new Headers();
-    headers.append('Authorization', 'Basic ' + btoa(key + ':'));
+    headers.append('Authorization', 'Basic ' + btoa(deviceKey + ':'));
     headers.append('Content-Type', 'application/json');
     let data = {
         auth_hash: userHash
@@ -546,4 +547,14 @@ function setupSession() {
             loadingScreen.hide();
         }
     });
+}
+
+function readDeviceKey() {
+    try {
+        var url = new URL(document.URL);
+        deviceKey = url.searchParams.get("device_key");
+        if(deviceKey == null) throw new Error("Device key not entered");
+    } catch(e) {
+        errorScreen.showError(e);
+    }
 }
