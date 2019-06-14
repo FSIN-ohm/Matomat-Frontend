@@ -84,7 +84,9 @@ window.onload = function () {
 
             var productHtml = `
                 <div id="product_${id}" class="product">
-                    <img class="product_image" src="${imageUrl}">
+                    <div class="product_image_container">
+                        <img class="product_image" src="${imageUrl}">
+                    </div>
                     <h1>${name}</h1>
                     <h2>${parseFloat(price).toFixed(2).replace(".", ",")}€</h2>
                     <button class="ripple" onmousedown="onProductMouseDown()" onmouseup="onProductMouseUp(${id})" onmousemove="onProductMouseMove()"></button>
