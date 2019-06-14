@@ -2,7 +2,7 @@
 var keyBuffer = "";
 var productScreenScrolled = false;
 
-var server = 'http://127.0.0.1:8080';
+var server = 'https://matohmat.fachschaft.in/api';
 
 GIPHY_API_KEY = "X9m2ukRMWcyp7lh7YjCe4SHFU365BXWY";
 var deviceKey = "";
