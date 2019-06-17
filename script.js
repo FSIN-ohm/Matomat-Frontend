@@ -2,11 +2,6 @@
 var keyBuffer = "";
 var productScreenScrolled = false;
 
-const server = 'http://127.0.0.1:8080';
-const sessionTimeout = 5000;
-const afterBoughtTimeout = 5000;
-const readAgreementTimeout = 20000;
-
 GIPHY_API_KEY = "X9m2ukRMWcyp7lh7YjCe4SHFU365BXWY";
 var deviceKey = "";
 
@@ -241,6 +236,7 @@ window.onload = function () {
             var numPadButtons = document.getElementsByClassName("npb");
             for (let i = 0; i < numPadButtons.length; i++) {
                 numPadButtons[i].onclick = function () {
+                    resetSessionTimeout();
                     moneyKeyPad.centValue = moneyKeyPad.centValue * 10;
                     moneyKeyPad.centValue = moneyKeyPad.centValue + parseInt(numPadButtons[i].innerHTML);
                     moneyKeyPad.display.innerHTML = parseFloat(moneyKeyPad.centValue/100).toFixed(2).replace(".", ",") + "€";
@@ -301,11 +297,13 @@ function onEnterPressed(inputString) {
 }
 
 function onLogoutButton() {
+    resetSessionTimeout();
     session.clear();
     pages.showPage(pages.startPage);
 }
 
 function onBuyButton() {
+    resetSessionTimeout();
     if(session.getProductCostSum() > session.balance) {
         try {
             throw new Error("You don't have enought money.");
@@ -327,10 +325,12 @@ function onBuyButton() {
 }
 
 function onAddMoneyButton() {
+    resetSessionTimeout();
     pages.showPage(pages.addMoneyPage);
 }
 
 function onCancelAddMoney() {
+    resetSessionTimeout();
     moneyKeyPad.clear();
     if (session.isRegistration) {
         session.clear();
@@ -341,6 +341,7 @@ function onCancelAddMoney() {
 }
 
 function onOkAddMoney() {
+    resetSessionTimeout();
     if(session.isRegistration) {
         if(moneyKeyPad.centValue >= 500) {
             loadingScreen.show();
