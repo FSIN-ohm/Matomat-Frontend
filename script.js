@@ -2,10 +2,12 @@
 var keyBuffer = "";
 var productScreenScrolled = false;
 
-var server = 'https://matohmat.fachschaft.in/api';
-
 GIPHY_API_KEY = "X9m2ukRMWcyp7lh7YjCe4SHFU365BXWY";
 var deviceKey = "";
+
+deadManTimeout = setTimeout(function() {
+    console.log("I am an easter egg.");
+}, 5000);
 
 window.onload = function () {
 
@@ -67,6 +69,7 @@ window.onload = function () {
         },
 
         hide: function () {
+            session.clear();
             this.screen.style.display = 'none';
             pages.showPage(pages.startPage);
         }
@@ -192,6 +195,7 @@ window.onload = function () {
             this.userHash = "";
             this.userId = -1;
             this.balance = -1;
+            clearTimeout(this.deadManTimeout);
         },
         
         setCardId: function(userId) {
@@ -211,7 +215,7 @@ window.onload = function () {
             headers.append('Authorization', 'Basic ' + btoa(this.userHash + ':'));
             headers.append('Content-Type', 'application/json');
             return headers;
-        }
+        },
     }
 
     moneyKeyPad = {
@@ -232,6 +236,7 @@ window.onload = function () {
             var numPadButtons = document.getElementsByClassName("npb");
             for (let i = 0; i < numPadButtons.length; i++) {
                 numPadButtons[i].onclick = function () {
+                    resetSessionTimeout();
                     moneyKeyPad.centValue = moneyKeyPad.centValue * 10;
                     moneyKeyPad.centValue = moneyKeyPad.centValue + parseInt(numPadButtons[i].innerHTML);
                     moneyKeyPad.display.innerHTML = parseFloat(moneyKeyPad.centValue/100).toFixed(2).replace(".", ",") + "€";
@@ -255,7 +260,20 @@ window.onload = function () {
     readDeviceKey();
 }
 
+function resetSessionTimeout() {
+    resetSessionVariableTimeout(sessionTimeout);
+}
+
+function resetSessionVariableTimeout(interval) {
+    clearTimeout(deadManTimeout);
+    deadManTimeout = setTimeout(function() {
+        session.clear();
+        pages.showPage(pages.startPage);
+    }, interval);
+}
+
 function onEnterPressed(inputString) {
+    resetSessionTimeout();
     if(session.isRegistration) {
         if(session.userHash == sha256(inputString)) {
             pages.showPage(pages.addMoneyPage);
@@ -279,11 +297,13 @@ function onEnterPressed(inputString) {
 }
 
 function onLogoutButton() {
+    resetSessionTimeout();
     session.clear();
     pages.showPage(pages.startPage);
 }
 
 function onBuyButton() {
+    resetSessionTimeout();
     if(session.getProductCostSum() > session.balance) {
         try {
             throw new Error("You don't have enought money.");
@@ -299,16 +319,18 @@ function onBuyButton() {
             pages.showPage(pages.thankYouPage);
             setTimeout(function () {
                 pages.showPage(pages.startPage);
-            }, 5000)
+            }, afterBoughtTimeout)
         });
     }
 }
 
 function onAddMoneyButton() {
+    resetSessionTimeout();
     pages.showPage(pages.addMoneyPage);
 }
 
 function onCancelAddMoney() {
+    resetSessionTimeout();
     moneyKeyPad.clear();
     if (session.isRegistration) {
         session.clear();
@@ -319,6 +341,7 @@ function onCancelAddMoney() {
 }
 
 function onOkAddMoney() {
+    resetSessionTimeout();
     if(session.isRegistration) {
         if(moneyKeyPad.centValue >= 500) {
             loadingScreen.show();
@@ -355,10 +378,12 @@ function onOkAddMoney() {
 }
 
 function onResetAddMoney() {
+    resetSessionTimeout();
     moneyKeyPad.clear();
 }
 
 function onDeleteAddMoney() {
+    resetSessionTimeout();
     moneyKeyPad.delete();
 }
 
@@ -368,14 +393,17 @@ function onErrorScreenClick() {
 }
 
 function onProductMouseDown() {
+    resetSessionTimeout();
     productScreenScrolled = false;
 }
 
 function onProductMouseMove() {
+    resetSessionTimeout();
     productScreenScrolled = true;
 }
 
 function onProductMouseUp(id) {
+    resetSessionTimeout();
     deleted = false;
     if (!productScreenScrolled) {
         onProductClicked(products.getProductById(id),
@@ -384,6 +412,7 @@ function onProductMouseUp(id) {
 }
 
 function onDeleteProductMouseUp(id) {
+    resetSessionTimeout();
     deleted = true;
     if (!productScreenScrolled) {
         onProductClicked(products.getProductById(id),
@@ -392,6 +421,7 @@ function onDeleteProductMouseUp(id) {
 }
 
 function onProductClicked(product, productCard, productDeleted) {
+    resetSessionTimeout();
     bobel = productCard.getElementsByClassName("bobel")[0];
     bobelText = productCard.getElementsByClassName("product_count")[0];
     removeButton = productCard.getElementsByClassName("product_remove_button")[0];
@@ -419,17 +449,9 @@ function onProductClicked(product, productCard, productDeleted) {
     }
 }
 
-function onDeleteProductClicked(product, productCard) {
-    alert("delete");
-}
-
 function onAddMoneyButtonClicked(amount) {
+    resetSessionTimeout();
     moneyKeyPad.setValue(amount);
-}
-
-function onInvisibleAcceptButton() {
-    session.isRegistration = true;
-    pages.showPage(pages.addMoneyPage);
 }
 
 document.onkeypress = function (e) {
@@ -439,15 +461,6 @@ document.onkeypress = function (e) {
         onEnterPressed(keyBuffer);
         keyBuffer = "";
     }
-}
-
-//THIS IS MOCKUP REMOVE THIS
-function loadingMock(afterDone) {
-    loadingScreen.show();
-    setTimeout(function () {
-        loadingScreen.hide();
-        afterDone();
-    }, 1000);
 }
 
 function getProducts() {
@@ -544,6 +557,7 @@ function setupSession() {
                 })
                 .catch(error => errorScreen.showError(error));
         } else {
+            resetSessionVariableTimeout(readAgreementTimeout);
             session.isRegistration = true;
             pages.showPage(pages.registrationPage);
             loadingScreen.hide();
