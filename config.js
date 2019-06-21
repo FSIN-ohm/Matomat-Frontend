@@ -1,4 +1,4 @@
 const server = 'https://matohmat.fachschaft.in/api';
-const sessionTimeout = 5000;
+const sessionTimeout = 10000;
 const afterBoughtTimeout = 5000;
-const readAgreementTimeout = 20000;
+const readAgreementTimeout = 60000;
