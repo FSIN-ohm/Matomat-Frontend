@@ -144,6 +144,9 @@ window.onload = function () {
                     }
                     else if (deleted) {
                         this.stagedProducts[i].count--;
+                        if(this.stagedProducts[i].count == 0) {
+                            this.stagedProducts.splice(i, 1);
+                        }
                     }
                     productAlreadyStaged = true;
                 }
