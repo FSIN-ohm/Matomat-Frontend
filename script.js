@@ -145,7 +145,7 @@ window.onload = function () {
                     else if (deleted) {
                         this.stagedProducts[i].count--;
                         if(this.stagedProducts[i].count == 0) {
-                            this.stagedProducts.splice(i, 1);
+                            this.stagedProducts3.splice(i, 1);
                         }
                     }
                     productAlreadyStaged = true;
@@ -338,7 +338,7 @@ function onCancelAddMoney() {
     if (session.isRegistration) {
         session.clear();
         pages.showPage(pages.startPage);
-    } else {
+    } else {OkAdd
         pages.showPage(pages.mainPage);
     }
 }
@@ -364,6 +364,9 @@ function onOkAddMoney() {
             }
         }
     } else {
+        if(moneyKeyPad.centValue == 0) {
+            return;
+        }
         loadingScreen.show();
         sendDeposit(moneyKeyPad.centValue, function(status) {
             loadUser(function(res) {
