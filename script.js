@@ -2,6 +2,8 @@
 var keyBuffer = "";
 var productScreenScrolled = false;
 
+var thankYouTimeout = -1;
+
 GIPHY_API_KEY = "X9m2ukRMWcyp7lh7YjCe4SHFU365BXWY";
 var deviceKey = "";
 
@@ -277,12 +279,13 @@ function resetSessionVariableTimeout(interval) {
 
 function onEnterPressed(inputString) {
     resetSessionTimeout();
+    clearTimeout(thankYouTimeout);
     if(session.isRegistration) {
         if(session.userHash == sha256(inputString)) {
             pages.showPage(pages.addMoneyPage);
         } else {
             try {
-                throw new Error("id card is not akzeptable");
+                throw new Error("id card is not acceptable");
             } catch(e) {
                 errorScreen.showError(e);
             }
@@ -320,7 +323,7 @@ function onBuyButton() {
         sendPurchase(session.stagedProducts, function() {
             session.clear();
             pages.showPage(pages.thankYouPage);
-            setTimeout(function () {
+            thankYouTimeout = setTimeout(function () {
                 pages.showPage(pages.startPage);
             }, afterBoughtTimeout)
         });
@@ -395,6 +398,8 @@ function onDeleteAddMoney() {
 
 function onErrorScreenClick() {
     pages.showPage(pages.startPage);
+    loadingScreen.hide();
+    session.clear();
     errorScreen.hide()
 }
 
